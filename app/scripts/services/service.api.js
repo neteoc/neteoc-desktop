@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular.module('neteoc').service('api', api);
-    api.$inject = ['$rootScope', '$resource', '$http', 'config'];
+    api.$inject = ['$rootScope', '$resource', '$http', 'config', 'logger'];
 
     function api($rootScope, $resource, $http, config, logger) {
 
