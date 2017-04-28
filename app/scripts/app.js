@@ -3,11 +3,12 @@
     angular.module('neteoc', [
         'ngRoute',
         'angular-electron',
+        'nemLogging',
         'ui.bootstrap',
         'ngAnimate',
         'ngTouch',
         "LocalStorageModule",
-        "ngAnimate",
+        'leaflet-directive'
     ]);
 
     angular.module('neteoc').config(['$locationProvider', '$routeProvider', 'localStorageServiceProvider',
@@ -41,5 +42,8 @@
         $rootScope.$on('$routeChangeError', function() {
             //catch error
         });
+
+        //set leaflet image path
+        L.Icon.Default.imagePath = 'vendor/leaflet/dist/images/';
     }]);
 })();

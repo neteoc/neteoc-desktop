@@ -1,5 +1,5 @@
 {
-  "name": "NetEOC Desktop",
+  "name": "neteoc-desktop",
   "description": "NetEOC Desktop",
   "main": "app/index.html",
   "authors": [
@@ -24,6 +24,8 @@
     "font-awesome": "^4.7.0",
     "angular-local-storage": "^0.5.2",
     "bootstrap": "^3.3.7",
-    "angular-electron": "^0.2.1"
+    "angular-electron": "^0.2.1",
+    "angular-simple-logger": "^0.1.7",
+    "angular-leaflet-directive": "angular-leaflet#^0.10.0"
   }
 }
