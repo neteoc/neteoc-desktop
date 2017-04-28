@@ -8,7 +8,7 @@
         $scope.init = function() {};
 
         $scope.login = function() {
-            $location.path("/map");
+            $location.path("/gis");
         };
 
         $scope.init();

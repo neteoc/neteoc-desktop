@@ -17,8 +17,8 @@
             when('/', {
                 templateUrl: 'views/dashboard.html'
             }).
-            when('/map', {
-                templateUrl: 'views/map/map.html'
+            when('/gis', {
+                templateUrl: 'views/gis/map.html'
             }).
             otherwise({
                 redirectTo: '/'
