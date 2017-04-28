@@ -43,7 +43,13 @@
             //catch error
         });
 
-        //set leaflet image path
+        //set leaflet image path and tiles
         L.Icon.Default.imagePath = 'vendor/leaflet/dist/images/';
+        $rootScope.openStreetMapTiles = {
+            url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            options: {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }
+        };
     }]);
 })();
