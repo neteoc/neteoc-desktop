@@ -1,1 +1,1 @@
-# neteoc-desktop
+NetEOC Desktop

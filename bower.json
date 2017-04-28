@@ -1,0 +1,29 @@
+{
+  "name": "NetEOC Desktop",
+  "description": "NetEOC Desktop",
+  "main": "app/index.html",
+  "authors": [
+    "NetEOC"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/vendor/",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "^1.6.1",
+    "angular-route": "^1.6.1",
+    "angular-animate": "^1.6.1",
+    "angular-touch": "^1.6.1",
+    "angular-bootstrap": "^2.4.0",
+    "linqjs": "^3.0.5",
+    "font-awesome": "^4.7.0",
+    "angular-local-storage": "^0.5.2",
+    "bootstrap": "^3.3.7",
+    "angular-electron": "^0.2.1"
+  }
+}

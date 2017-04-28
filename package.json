@@ -1,0 +1,17 @@
+{
+  "name": "neteoc-desktop",
+  "version": "1.0.0",
+  "description": "NetEOC Desktop",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "",
+  "keywords": [],
+  "author": "NetEOC",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "electron": "~1.6.2",
+    "gulp": "^3.9.1"
+  }
+}
