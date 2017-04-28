@@ -15,7 +15,7 @@
         function($locationProvider, $routeProvider, localStorageServiceProvider) {
             $routeProvider.
             when('/', {
-                templateUrl: 'views/start.html'
+                templateUrl: 'views/dashboard.html'
             }).
             when('/map', {
                 templateUrl: 'views/map/map.html'
