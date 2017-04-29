@@ -3,16 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>NetEOC Desktop</title>
+    <title>NetEOC</title>
 
     <!-- Vendor Styles -->
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="vendor/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/angular-datatables/demo/src/archives/dist/css/angular-datatables.min.css" />
 
     <!-- Application Styles -->
     <link rel="stylesheet" type="text/css" href="styles/site.css" />
 
     <!-- Vendor Scripts -->
+    <script type="text/javascript">
+        window.$ = window.jQuery = require("jquery");
+    </script>
     <script src="vendor/linqjs/linq.js"></script>
     <script src="vendor/leaflet/dist/leaflet.js"></script>
     <script src="vendor/angular/angular.js"></script>
@@ -24,6 +28,9 @@
     <script src="vendor/angular-touch/angular-touch.js"></script>
     <script src="vendor/angular-electron/angular-electron.js"></script>
     <script src="vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+    <script src="vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="vendor/angular-datatables/demo/src/archives/dist/angular-datatables.min.js"></script>
 
     <!-- Application Scripts -->
     <script src="scripts/app.js"></script>

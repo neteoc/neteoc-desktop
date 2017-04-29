@@ -12,9 +12,14 @@ const url = require('url')
 let mainWindow
 
 function createWindow() {
+
+// https://github.com/electron/electron/blob/master/docs/tutorial/devtools-extension.md :(
+    var extensionFolder = "~/AppData/local/Google/Chrome/User Data/Default/Extensions/";
+
     // Create the browser window.
     mainWindow = new BrowserWindow({ width: 800, height: 600 });
-    mainWindow.maximize();
+    // BrowserWindow.addDevToolsExtension(extensionFolder + "ighdmehidhipcmcojjgiloacoafjmpfk/0.10.9_0");
+    // mainWindow.maximize();
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
