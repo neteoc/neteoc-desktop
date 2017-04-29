@@ -8,7 +8,8 @@
         'ngAnimate',
         'ngTouch',
         "LocalStorageModule",
-        'leaflet-directive'
+        'leaflet-directive',
+        "datatables"
     ]);
 
     angular.module('neteoc').config(['$locationProvider', '$routeProvider', 'localStorageServiceProvider',

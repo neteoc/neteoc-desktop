@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl);
-    mapCtrl.$inject = ['$scope', 'leafletData'];
+    mapCtrl.$inject = ['$scope', 'leafletData', '$uibModal'];
 
-    function mapCtrl($scope, leaflet) {
+    function mapCtrl($scope, leaflet, uibModal) {
 
         $scope.mapMarkers = [{
             lat: 32.837,
@@ -39,7 +39,22 @@
 
         $scope.mapClick = function(event, args) {
             $scope.addMapMarker(args.leafletEvent.latlng.lat, args.leafletEvent.latlng.lng, "<a href='#!/'>Hello</a>", false);
+
+            $scope.editPoi($scope.mapMarkers[$scope.mapMarkers.length - 1]);
         };
+
+        /**
+         * Functions that need to go in the pointsofinterest service
+         */
+        $scope.editPoi = function(pointOfInterest) {
+
+            $scope.editingPoi = pointOfInterest;
+
+            uibModal.open({
+                templateUrl: "views/gis/poiEdit.modal.html",         
+                scope: $scope
+            });
+        }
 
         $scope.$on('leafletDirectiveMap.click', $scope.mapClick);
 

@@ -1,0 +1,43 @@
+
+<div id="newPinModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">New Map Entry</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="newPinForm" name="newPinForm" class="ng-pristine ng-valid">
+                        <div class="form-group">
+                            <label for="latitude">Latitude: </label>
+                            <input type="text" ng-model="editingPoi.lat" class="ng-pristine ng-untouched ng-valid ng-not-empty">
+                            <label for="longitude">Longitude: </label>
+                            <input type="text" ng-model="editingPoi.lng" class="ng-pristine ng-untouched ng-valid ng-not-empty">
+                            <input type="button" ng-show="$ctrl.hasLatLongFromImage == true" value="Set lat long from " ng-click="$ctrl.imageLatLong.set()" class="ng-hide">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Fields: </label>
+                            <!-- ngRepeat: (fieldKey, fieldValue) in $ctrl.newPin.fields --><div ng-repeat="(fieldKey, fieldValue) in $ctrl.newPin.fields" class="ng-scope">
+                              <input type="text" value="1"> <input type="text" value="change me ">
+                            </div><!-- end ngRepeat: (fieldKey, fieldValue) in $ctrl.newPin.fields -->
+                        </div>
+                        <div class="form-group">
+                            <button ng-click="$ctrl.addNewPinField()" class="btn btn-primary" id="newPinAddFieldButton">
+                              <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Attachments: </label>
+                            <input type="file" id="newAttachment" custom-on-change="attachmentAdded">
+                            <div id="imagePreview"></div>
+                            <input type="button" ng-show="$ctrl.newPin.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
+                        </div>
+                        <p></p>
+                        <button ng-click="$ctrl.createMapEntry()" type="submit" class="btn btn-danger" data-dismiss="modal" ng-disabled="newPinForm.$invalid">Create</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>

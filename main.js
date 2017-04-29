@@ -17,7 +17,7 @@ function createWindow() {
     var extensionFolder = "~/AppData/local/Google/Chrome/User Data/Default/Extensions/";
 
     // Create the browser window.
-    mainWindow = new BrowserWindow({ width: 800, height: 600 });
+    mainWindow = new BrowserWindow({ width: 800, height: 800 });
     // BrowserWindow.addDevToolsExtension(extensionFolder + "ighdmehidhipcmcojjgiloacoafjmpfk/0.10.9_0");
     // mainWindow.maximize();
 
