@@ -1,10 +1,9 @@
 
 <div id="newPinModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">New Map Entry</h4>
+                    <h4 class="modal-title">{{editingPoi.message}}</h4>
                 </div>
                 <div class="modal-body">
                     <form id="newPinForm" name="newPinForm" class="ng-pristine ng-valid">
@@ -17,12 +16,12 @@
                         </div>
                         <div class="form-group">
                             <label for="message">Fields: </label>
-                            <!-- ngRepeat: (fieldKey, fieldValue) in $ctrl.newPin.fields --><div ng-repeat="(fieldKey, fieldValue) in $ctrl.newPin.fields" class="ng-scope">
-                              <input type="text" value="1"> <input type="text" value="change me ">
-                            </div><!-- end ngRepeat: (fieldKey, fieldValue) in $ctrl.newPin.fields -->
+                            <div ng-repeat="(fieldKey, fieldValue) in editingPoi.fields" class="ng-scope">
+                              <input type="text" ng-model="fieldKey"> <input type="text" ng-model="fieldValue">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <button ng-click="$ctrl.addNewPinField()" class="btn btn-primary" id="newPinAddFieldButton">
+                            <button ng-click="addNewPinField()" class="btn btn-primary" id="newPinAddFieldButton">
                               <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
@@ -32,12 +31,13 @@
                             <div id="imagePreview"></div>
                             <input type="button" ng-show="$ctrl.newPin.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
                         </div>
-                        <p></p>
-                        <button ng-click="$ctrl.createMapEntry()" type="submit" class="btn btn-danger" data-dismiss="modal" ng-disabled="newPinForm.$invalid">Create</button>
                     </form>
                 </div>
-            </div>
             <div class="modal-footer">
+                <button ng-click="$ctrl.createMapEntry()" type="submit" class="btn btn-primary" data-dismiss="modal" ng-disabled="newPinForm.$invalid">Done</button>
+                <button ng-click="deleteMapMarker(editingPoi)" type="submit" class="btn btn-danger" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-trash"> Delete</span>
+                </button>
             </div>
         </div>
     </div>

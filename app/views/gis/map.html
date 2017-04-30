@@ -1,11 +1,9 @@
 <div ng-controller="mapCtrl">
     <leaflet width="100%" height="480px" tiles="openStreetMapTiles" markers="mapMarkers" center="mapCenter"></leaflet>
 
-    <!--
     <button class="btn btn-primary" ng-click="editPoi(null)">
         <span class="glyphicon glyphicon-plus"> New Map Entry</span>
     </button>
-    -->
 
     <table datatable class="row-border hover">
         <thead>
@@ -22,7 +20,9 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <button class="btn" ng-click="editPoi(pin)">Edit</button>
+                    <button class="btn" ng-click="editPoi(pin)">
+                        <span class="glyphicon glyphicon-pencil"> Edit</span>
+                    </button>
                 </td>
             </tr>
         </tbody>
