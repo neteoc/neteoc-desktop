@@ -9,7 +9,8 @@
         'ngTouch',
         "LocalStorageModule",
         'leaflet-directive',
-        "datatables"
+        "datatables",
+        "xeditable"
     ]);
 
     angular.module('neteoc').config(['$locationProvider', '$routeProvider', 'localStorageServiceProvider',
@@ -31,7 +32,7 @@
         }
     ]);
 
-    angular.module('neteoc').run(['$rootScope', function($rootScope) {
+    angular.module('neteoc').run(['$rootScope', 'editableOptions', function($rootScope, editableOptions) {
         $rootScope.stateIsLoading = false;
         $rootScope.stateIsBusy = false;
         $rootScope.$on('$routeChangeStart', function() {
@@ -43,6 +44,7 @@
         $rootScope.$on('$routeChangeError', function() {
             //catch error
         });
+        editableOptions.theme = 'bs3';
 
         //set leaflet image path and tiles
         L.Icon.Default.imagePath = 'vendor/leaflet/dist/images/';

@@ -30,6 +30,7 @@
     "datatables.net": "^1.10.15",
     "datatables.net-bs": "^2.1.1",
     "angular-datatables": "^4.0.0",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "angular-xeditable": "^0.7.1"
   }
 }
