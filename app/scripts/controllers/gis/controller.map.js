@@ -47,8 +47,6 @@
             };
         };
 
-        $scope.mapMarkers = [];
-
         $scope.addMapMarker = function(lat, lng, message, draggable) {
             $scope.mapMarkers.push({
                 id: $scope.generateUUID(),
@@ -56,12 +54,16 @@
                 lng: lng,
                 message: message,
                 draggable: draggable,
+                uploaded: false,
+                created: $scope.getCurrentUnixTime(),
                 fields: {
                     "first thing": "change me"
                 }
             });
-        }
 
+            localStorage.setItem("mapMarkers", JSON.stringify($scope.mapMarkers));
+        }
+    
         $scope.deleteMapMarker = function(mapMarker) {
 
             for(var index in $scope.mapMarkers) {
@@ -71,6 +73,11 @@
                     $scope.mapMarkers.splice(index, 1);
                 }
             }
+        }
+
+        $scope.getCurrentUnixTime = function() {
+
+            return (new Date()).getTime()/1000|0;
         }
 
         $scope.mapClick = function(event, args) {
@@ -98,10 +105,19 @@
             });
         }
 
+        $scope.savePoi = function(pointOfInterest) {
+
+            // TODO: When edit is made, save / upload the edit ...
+            localStorage.setItem("mapMarkers", JSON.stringify($scope.mapMarkers));
+        }
+
         $scope.addNewPinField = function() {
 
             $scope.editingPoi.fields[Object.keys($scope.editingPoi.fields).length + 1] = "change me";
         }
+
+        // TODO: load from API ...
+        $scope.mapMarkers = JSON.parse(localStorage.getItem("mapMarkers")) || [];
 
         $scope.$on('leafletDirectiveMap.click', $scope.mapClick);
 
