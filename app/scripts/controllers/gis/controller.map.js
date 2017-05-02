@@ -18,26 +18,22 @@
             return uuid;
         }
 
-        // TODO: addMapMarker instead. Or don't. Also load from data source. Or don't.
-        /*
-        $scope.mapMarkers = [{
-            lat: 32.837,
-            lng: -83.632,
-            message: "<a href='#!/'>Hello</a>",
-            draggable: false,
-            fields: {
-                "1": "change me"
+        $scope.init = function() {
+
+            // TODO: Fix ... 
+            $scope.mapCenter = {
+                lat: 32.837,
+                lng: -83.632,
+                zoom: 10
+            };
+
+            // TODO: load from API ...
+            $scope.mapMarkers = JSON.parse(localStorage.getItem("mapMarkers")) || [];
+
+            if($scope.mapMarkers.length == 0) {
+                $scope.addMapMarker(32.837, -83.632, "Welcome to Macon!", false);
             }
-        }];
-        */
-
-        $scope.mapCenter = {
-            lat: 32.837,
-            lng: -83.632,
-            zoom: 10
         };
-
-        $scope.init = function() {};
 
         $scope.setMapCenter = function(lat, lng, zoom) {
             $scope.mapCenter = {
@@ -61,7 +57,7 @@
                 }
             });
 
-            localStorage.setItem("mapMarkers", JSON.stringify($scope.mapMarkers));
+            localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
         }
     
         $scope.deleteMapMarker = function(mapMarker) {
@@ -73,6 +69,8 @@
                     $scope.mapMarkers.splice(index, 1);
                 }
             }
+            
+            localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
         }
 
         $scope.getCurrentUnixTime = function() {
@@ -81,6 +79,7 @@
         }
 
         $scope.mapClick = function(event, args) {
+
             $scope.addMapMarker(args.leafletEvent.latlng.lat, args.leafletEvent.latlng.lng, "<a href='#!/'>Hello</a>", false);
 
             $scope.editPoi($scope.mapMarkers[$scope.mapMarkers.length - 1]);
@@ -93,6 +92,7 @@
 
             // TODO: Fix when not sleepy ...
             if(pointOfInterest == null) {
+                console.log("I don't think we should be here.");
                 $scope.addMapMarker(0, 0, "<a href='#!/'>Hello</a>", false);
                 pointOfInterest = $scope.mapMarkers[$scope.mapMarkers.length - 1];
             }
@@ -108,7 +108,7 @@
         $scope.savePoi = function(pointOfInterest) {
 
             // TODO: When edit is made, save / upload the edit ...
-            localStorage.setItem("mapMarkers", JSON.stringify($scope.mapMarkers));
+            localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
         }
 
         $scope.addNewPinField = function() {
@@ -116,12 +116,7 @@
             $scope.editingPoi.fields[Object.keys($scope.editingPoi.fields).length + 1] = "change me";
         }
 
-        // TODO: load from API ...
-        $scope.mapMarkers = JSON.parse(localStorage.getItem("mapMarkers")) || [];
-
         $scope.$on('leafletDirectiveMap.click', $scope.mapClick);
-
-        $scope.addMapMarker(32.837, -83.632, "Welcome to Macon!", false);
 
         $scope.init();
     }

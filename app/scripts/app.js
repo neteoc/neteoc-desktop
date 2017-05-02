@@ -13,8 +13,10 @@
         "xeditable"
     ]);
 
-    angular.module('neteoc').config(['$locationProvider', '$routeProvider', 'localStorageServiceProvider', 'remoteProvider',
-        function($locationProvider, $routeProvider, localStorageServiceProvider, remoteProvider) {
+    angular.module('neteoc').config(['$locationProvider', '$routeProvider', '$logProvider', 'localStorageServiceProvider', 'remoteProvider',
+        function($locationProvider, $routeProvider, $logProvider, localStorageServiceProvider, remoteProvider) {
+
+            // TODO: It would be nice to figure out self-registration if possible
             $routeProvider.
             when('/', {
                 templateUrl: 'views/dashboard.html'
@@ -29,6 +31,9 @@
             $locationProvider.hashPrefix('!');
             $locationProvider.html5Mode({ enabled: false, requireBase: false });
             localStorageServiceProvider.setPrefix('neteoc');
+
+            // disable annoying leaflet debug logging
+            $logProvider.debugEnabled(false);
 
             //register node modules as angular modules
             //remoteProvider.register("serialport");

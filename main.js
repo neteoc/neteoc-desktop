@@ -9,21 +9,22 @@ const Menu = electron.Menu
 const path = require('path')
 const url = require('url')
 
+const { default: installExtension, ANGULARJS_BATARANG } = require('electron-devtools-installer');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow() {
 
+    installExtension(ANGULARJS_BATARANG)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+
     var menu = Menu.buildFromTemplate([]);
     Menu.setApplicationMenu(menu);
 
-// https://github.com/electron/electron/blob/master/docs/tutorial/devtools-extension.md :(
-    var extensionFolder = "~/AppData/local/Google/Chrome/User Data/Default/Extensions/";
-
-    // Create the browser window.
     mainWindow = new BrowserWindow({ width: 800, height: 800 });
-    // BrowserWindow.addDevToolsExtension(extensionFolder + "ighdmehidhipcmcojjgiloacoafjmpfk/0.10.9_0");
     // mainWindow.maximize();
 
     // and load the index.html of the app.
@@ -33,10 +34,8 @@ function createWindow() {
         slashes: true
     }))
 
-    // Open the DevTools.
     //mainWindow.webContents.openDevTools()
 
-    // Emitted when the window is closed.
     mainWindow.on('closed', function() {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
