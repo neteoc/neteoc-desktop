@@ -13,8 +13,8 @@
         "xeditable"
     ]);
 
-    angular.module('neteoc').config(['$locationProvider', '$routeProvider', 'localStorageServiceProvider',
-        function($locationProvider, $routeProvider, localStorageServiceProvider) {
+    angular.module('neteoc').config(['$locationProvider', '$routeProvider', '$logProvider', 'localStorageServiceProvider',
+        function($locationProvider, $routeProvider, $logProvider, localStorageServiceProvider) {
             $routeProvider.
             when('/', {
                 templateUrl: 'views/dashboard.html'
@@ -29,6 +29,9 @@
             $locationProvider.hashPrefix('!');
             $locationProvider.html5Mode({ enabled: false, requireBase: false });
             localStorageServiceProvider.setPrefix('neteoc');
+
+            // disable annoying leaflet debug logging
+            $logProvider.debugEnabled(false);
         }
     ]);
 
