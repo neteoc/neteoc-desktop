@@ -35,7 +35,7 @@ function createWindow() {
         pathname: path.join(__dirname, '/app/index.html'),
         protocol: 'file:',
         slashes: true
-    }))
+    }));
 
     //mainWindow.webContents.openDevTools()
 
@@ -44,7 +44,19 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null
-    })
+    });
+
+    /*
+    for(var index in process.env) {
+
+        console.log(index);
+        // console.log(process.env[index]);
+    }
+    */
+
+    var localUserName = process.env["USER"] || process.env["USERNAME"];
+
+    console.log("Local user is " + localUserName);
 }
 
 // This method will be called when Electron has finished
