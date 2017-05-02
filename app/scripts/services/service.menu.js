@@ -1,10 +1,11 @@
 (function() {
     'use strict';
     angular.module('neteoc').service('menu', menu);
-    menu.$inject = ['$rootScope', '$location', 'Menu', 'currentWindow'];
+    menu.$inject = ['$rootScope', '$location', 'Menu', 'currentWindow', 'serial'];
 
-    function menu($rootScope, $location, Menu, currentWindow) {
+    function menu($rootScope, $location, Menu, currentWindow, serial) {
         this.init = function(){
+
             var menu = Menu.buildFromTemplate([{
             label: 'Devices',
             submenu: [{

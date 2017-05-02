@@ -29,6 +29,9 @@
             $locationProvider.hashPrefix('!');
             $locationProvider.html5Mode({ enabled: false, requireBase: false });
             localStorageServiceProvider.setPrefix('neteoc');
+
+            //register node modules as angular modules
+            //remoteProvider.register("serialport");
         }
     ]);
 
