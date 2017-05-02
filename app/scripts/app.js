@@ -13,9 +13,9 @@
         "xeditable"
     ]);
 
-    angular.module('neteoc').config(['$locationProvider', '$routeProvider', '$logProvider', 'localStorageServiceProvider',
-        function($locationProvider, $routeProvider, $logProvider, localStorageServiceProvider) {
-            
+    angular.module('neteoc').config(['$locationProvider', '$routeProvider', '$logProvider', 'localStorageServiceProvider', 'remoteProvider',
+        function($locationProvider, $routeProvider, $logProvider, localStorageServiceProvider, remoteProvider) {
+
             // TODO: It would be nice to figure out self-registration if possible
             $routeProvider.
             when('/', {
@@ -37,7 +37,7 @@
         }
     ]);
 
-    angular.module('neteoc').run(['$rootScope', 'editableOptions', function($rootScope, editableOptions) {
+    angular.module('neteoc').run(['$rootScope', 'editableOptions', 'menu', function($rootScope, editableOptions, menu) {
         $rootScope.stateIsLoading = false;
         $rootScope.stateIsBusy = false;
         $rootScope.$on('$routeChangeStart', function() {
@@ -59,5 +59,8 @@
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }
         };
+
+        //set up menu
+        menu.init();
     }]);
 })();
