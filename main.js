@@ -9,6 +9,9 @@ const Menu = electron.Menu
 const path = require('path')
 const url = require('url')
 
+// The following does not work. Best explanation found is: https://github.com/electron/electron/issues/8647
+const NG_INSPECTOR = 'aadgmnobpdmgmigaicncghmmoeflnamj';
+
 const { default: installExtension, ANGULARJS_BATARANG } = require('electron-devtools-installer');
 
 // Keep a global reference of the window object, if you don't, the window will
