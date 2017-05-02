@@ -15,6 +15,8 @@
 
     angular.module('neteoc').config(['$locationProvider', '$routeProvider', '$logProvider', 'localStorageServiceProvider',
         function($locationProvider, $routeProvider, $logProvider, localStorageServiceProvider) {
+            
+            // TODO: It would be nice to figure out self-registration if possible
             $routeProvider.
             when('/', {
                 templateUrl: 'views/dashboard.html'
