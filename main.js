@@ -7,18 +7,28 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
+const { default: installExtension, ANGULARJS_BATARANG } = require('electron-devtools-installer');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow() {
 
+    installExtension(ANGULARJS_BATARANG)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+
 // https://github.com/electron/electron/blob/master/docs/tutorial/devtools-extension.md :(
-    var extensionFolder = "~/AppData/local/Google/Chrome/User Data/Default/Extensions/";
+
+// https://github.com/MarshallOfSound/electron-devtools-installer ?
+
+    // var extensionFolder = "~/AppData/local/Google/Chrome/User\ Data/Default/Extensions/";
+    var extensionFolder = "/%LOCALAPPDATA%\\Google\\Chrome\\User\ Data\\Default\\Extensions\\";
 
     // Create the browser window.
     mainWindow = new BrowserWindow({ width: 800, height: 800 });
-    // BrowserWindow.addDevToolsExtension(extensionFolder + "ighdmehidhipcmcojjgiloacoafjmpfk/0.10.9_0");
+    // BrowserWindow.addDevToolsExtension(extensionFolder + "ighdmehidhipcmcojjgiloacoafjmpfk\\0.10.9_0");
     // mainWindow.maximize();
 
     // and load the index.html of the app.
