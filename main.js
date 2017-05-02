@@ -3,6 +3,8 @@ const electron = require('electron')
 const app = electron.app
     // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+    //module for the menu
+const Menu = electron.Menu
 
 const path = require('path')
 const url = require('url')
@@ -12,6 +14,9 @@ const url = require('url')
 let mainWindow
 
 function createWindow() {
+
+    var menu = Menu.buildFromTemplate([]);
+    Menu.setApplicationMenu(menu);
 
 // https://github.com/electron/electron/blob/master/docs/tutorial/devtools-extension.md :(
     var extensionFolder = "~/AppData/local/Google/Chrome/User Data/Default/Extensions/";

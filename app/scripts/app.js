@@ -13,8 +13,8 @@
         "xeditable"
     ]);
 
-    angular.module('neteoc').config(['$locationProvider', '$routeProvider', 'localStorageServiceProvider',
-        function($locationProvider, $routeProvider, localStorageServiceProvider) {
+    angular.module('neteoc').config(['$locationProvider', '$routeProvider', 'localStorageServiceProvider', 'remoteProvider',
+        function($locationProvider, $routeProvider, localStorageServiceProvider, remoteProvider) {
             $routeProvider.
             when('/', {
                 templateUrl: 'views/dashboard.html'
@@ -32,7 +32,7 @@
         }
     ]);
 
-    angular.module('neteoc').run(['$rootScope', 'editableOptions', function($rootScope, editableOptions) {
+    angular.module('neteoc').run(['$rootScope', 'editableOptions', 'Menu', function($rootScope, editableOptions, Menu) {
         $rootScope.stateIsLoading = false;
         $rootScope.stateIsBusy = false;
         $rootScope.$on('$routeChangeStart', function() {
@@ -54,5 +54,25 @@
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }
         };
+
+        //set up menu
+        var menu = Menu.buildFromTemplate([{
+            label: 'Devices',
+            submenu: [{
+                label: 'GPS',
+                submenu: [{
+                    label: "Fake Device 1",
+                    click: function(){
+                        alert('Now Connected To Fake Device 1');
+                    }
+                },{
+                    label: "Fake Device 2",
+                    click: function(){
+                        alert('Now Connected To Fake Device 2');
+                    }
+                }]
+            }]
+        }]);
+        Menu.setApplicationMenu(menu);
     }]);
 })();
