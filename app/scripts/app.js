@@ -32,7 +32,7 @@
         }
     ]);
 
-    angular.module('neteoc').run(['$rootScope', 'editableOptions', 'Menu', function($rootScope, editableOptions, Menu) {
+    angular.module('neteoc').run(['$rootScope', 'editableOptions', 'menu', function($rootScope, editableOptions, menu) {
         $rootScope.stateIsLoading = false;
         $rootScope.stateIsBusy = false;
         $rootScope.$on('$routeChangeStart', function() {
@@ -56,23 +56,6 @@
         };
 
         //set up menu
-        var menu = Menu.buildFromTemplate([{
-            label: 'Devices',
-            submenu: [{
-                label: 'GPS',
-                submenu: [{
-                    label: "Fake Device 1",
-                    click: function(){
-                        alert('Now Connected To Fake Device 1');
-                    }
-                },{
-                    label: "Fake Device 2",
-                    click: function(){
-                        alert('Now Connected To Fake Device 2');
-                    }
-                }]
-            }]
-        }]);
-        Menu.setApplicationMenu(menu);
+        menu.init();
     }]);
 })();
