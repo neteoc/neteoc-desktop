@@ -4,7 +4,8 @@
   "description": "NetEOC Desktop",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "setup": "npm install && ./node_modules/.bin/bower install"
   },
   "repository": "",
   "keywords": [],
