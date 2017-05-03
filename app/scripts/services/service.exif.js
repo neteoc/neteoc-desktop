@@ -8,24 +8,13 @@
 
         var debug = false;
 
-        var root = this;
+        var self = this;
 
         this.EXIF = function(obj) {
             if (obj instanceof EXIF) return obj;
             if (!(this instanceof EXIF)) return new EXIF(obj);
             this.EXIFwrapped = obj;
         };
-/*
-
-        if (typeof exports !== 'undefined') {
-            if (typeof module !== 'undefined' && module.exports) {
-                exports = module.exports = EXIF;
-            }
-            exports.EXIF = EXIF;
-        } else {
-            root.EXIF = EXIF;
-        }
-        */
 
         var ExifTags = {
 
@@ -780,8 +769,8 @@
         this.getData = function(img, callback) {
             if ((img instanceof Image || img instanceof HTMLImageElement) && !img.complete) return false;
 
-            if (!imageHasData(img)) {
-                getImageData(img, callback);
+            if (!self.imageHasData(img)) {
+                self.getImageData(img, callback);
             } else {
                 if (callback) {
                     callback.call(img);
@@ -791,12 +780,12 @@
         }
 
         this.getTag = function(img, tag) {
-            if (!imageHasData(img)) return;
+            if (!self.imageHasData(img)) return;
             return img.exifdata[tag];
         }
 
         this.getAllTags = function(img) {
-            if (!imageHasData(img)) return {};
+            if (!self.imageHasData(img)) return {};
             var a,
                 data = img.exifdata,
                 tags = {};
