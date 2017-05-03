@@ -4,19 +4,6 @@
     mapCtrl.$inject = ['$scope', 'leafletData', '$uibModal', 'exif'];
 
     function mapCtrl($scope, leaflet, uibModal, exif) {
-    
-        $scope.generateUUID = function() {
-            var d = new Date().getTime();
-            if(window.performance && typeof window.performance.now === "function"){
-                d += performance.now(); //use high-precision timer if available
-            }
-            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = (d + Math.random()*16)%16 | 0;
-                d = Math.floor(d/16);
-                return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-            });
-            return uuid;
-        }
 
         $scope.init = function() {
 
@@ -34,6 +21,19 @@
                 $scope.addMapMarker(32.837, -83.632, "Welcome to Macon!", false);
             }
         };
+    
+        $scope.generateUUID = function() {
+            var d = new Date().getTime();
+            if(window.performance && typeof window.performance.now === "function"){
+                d += performance.now(); //use high-precision timer if available
+            }
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (d + Math.random()*16)%16 | 0;
+                d = Math.floor(d/16);
+                return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+            });
+            return uuid;
+        }
 
         $scope.setMapCenter = function(lat, lng, zoom) {
             $scope.mapCenter = {
@@ -176,6 +176,7 @@
         $scope.init();
     }
 
+// TODO: Darrell says input / file should support ng-change (but it didn't work with a quick test)
     function customOnChange() {
         return {
             restrict: 'A',
