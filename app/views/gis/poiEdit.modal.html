@@ -12,7 +12,10 @@
                             <input type="text" ng-model="editingPoi.lat" class="ng-pristine ng-untouched ng-valid ng-not-empty">
                             <label for="longitude">Longitude: </label>
                             <input type="text" ng-model="editingPoi.lng" class="ng-pristine ng-untouched ng-valid ng-not-empty">
-                            <input type="button" ng-show="$ctrl.hasLatLongFromImage == true" value="Set lat long from " ng-click="$ctrl.imageLatLong.set()" class="ng-hide">
+                            <p>
+                                <button class="btn btn-secondary">From device...</button>
+                                <button class="btn btn-secondary">From file...</button>
+                            </p>
                         </div>
                         <div class="form-group">
                             <label for="message">Fields: </label>
@@ -29,7 +32,7 @@
                             <label for="message">Attachments: </label>
                             <input type="file" id="newAttachment" custom-on-change="attachmentAdded">
                             <div id="imagePreview"></div>
-                            <input type="button" ng-show="$ctrl.newPin.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
+                            <input type="button" ng-show="editingPoi.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
                         </div>
                     </form>
                 </div>

@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module("neteoc").controller('mapCtrl', mapCtrl);
+    angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
     mapCtrl.$inject = ['$scope', 'leafletData', '$uibModal'];
 
     function mapCtrl($scope, leaflet, uibModal) {
@@ -119,6 +119,16 @@
         $scope.$on('leafletDirectiveMap.click', $scope.mapClick);
 
         $scope.init();
+    }
+
+    function customOnChange() {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                var onChangeHandler = scope.$eval(attrs.customOnChange);
+                element.bind('change', onChangeHandler);
+            }
+        }
     }
 
 })();
