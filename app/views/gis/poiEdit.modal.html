@@ -37,8 +37,8 @@
                     </form>
                 </div>
             <div class="modal-footer">
-                <button ng-click="$ctrl.createMapEntry()" type="submit" class="btn btn-primary" ng-click="$close()" ng-disabled="newPinForm.$invalid">Done</button>
-                <button ng-click="deleteMapMarker(editingPoi)" type="submit" class="btn btn-danger" ng-click="$close()">
+                <button type="submit" class="btn btn-primary" ng-click="savePoi()" ng-disabled="newPinForm.$invalid">Done</button>
+                <button ng-click="deleteMapMarker(editingPoi)" type="submit" class="btn btn-danger">
                     <span class="glyphicon glyphicon-trash"> Delete</span>
                 </button>
             </div>

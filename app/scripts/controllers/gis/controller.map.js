@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', 'leafletData', '$uibModal', 'exif'];
+    mapCtrl.$inject = ['$scope', 'leafletData', '$uibModal', 'exif', '$uibModalStack'];
 
-    function mapCtrl($scope, leaflet, uibModal, exif) {
+    function mapCtrl($scope, leaflet, uibModal, exif, $uibModalStack) {
 
         $scope.init = function() {
 
@@ -72,6 +72,7 @@
             }
             
             localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
+            $uibModalStack.dismissAll("");
         }
 
         $scope.getCurrentUnixTime = function() {
@@ -110,6 +111,8 @@
 
             // TODO: When edit is made, save / upload the edit ...
             localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
+
+            $uibModalStack.dismissAll("");
         }
 
         $scope.addNewPinField = function() {
