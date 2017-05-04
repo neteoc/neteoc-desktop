@@ -3,7 +3,9 @@ node_js:
   - "7"
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install -qq zip wine
+- sudo apt-get install -qq zip wine build-essential
 install: npm run setup
 script:
 - npm run package-linux
+- npm run package-mac
+- npm run package-win
