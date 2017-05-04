@@ -20,7 +20,7 @@ compile:
     - npm run package-linux && zip -r linux_x64.zip ./release-builds/*-linux-x64
     - npm run package-win && zip -r linux_x64.zip ./release-builds/*-win32-ia32
     - npm run build-mac && zip -r linux_x64.zip ./release-builds/*-darwin-x64
-    - cp -R ./release-builds/* $CIRCLE_ARTIFACTS
+    - cp -R ./release-builds/*.zip $CIRCLE_ARTIFACTS
 
 deployment:
   production:win32win32
