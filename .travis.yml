@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "7"
+before_install:
+- sudo apt-get update -qq
+- sudo apt-get install -qq zip wine
+install: npm run setup
+script:
+- npm run package-linux
