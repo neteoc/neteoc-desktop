@@ -9,3 +9,10 @@ dependencies:
 compile:
   override:
     - npm run package-linux
+    - cp -R ./release-builds/* $CIRCLE_ARTIFACTS
+
+deployment:
+  production:
+    branch: prod
+    commands:
+      - echo Getting Started
