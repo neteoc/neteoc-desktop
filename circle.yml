@@ -10,19 +10,20 @@ dependencies:
     - sudo apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
     - sudo apt-get update
     - sudo apt-get install --install-recommends winehq-stable
+    - sudo apt-get install zip
 
   override:
     - npm run setup
 
 compile:
   override:
-    - npm run package-linux
-    - npm run package-win
-    - npm run build-mac
+    - npm run package-linux && zip -r linux_x64.zip ./release-builds/*-linux-x64
+    - npm run package-win && zip -r linux_x64.zip ./release-builds/*-win32-ia32
+    - npm run build-mac && zip -r linux_x64.zip ./release-builds/*-darwin-x64
     - cp -R ./release-builds/* $CIRCLE_ARTIFACTS
 
 deployment:
-  production:
+  production:win32win32
     branch: prod
     commands:
       - echo Getting Started
