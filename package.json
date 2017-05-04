@@ -25,10 +25,13 @@
       "email" : "tbd@neteoc.com",
       "url" : "www.neteoc.com"
   },
+  "dependencies": {
+    "electron-devtools-installer": "^2.2.0"
+  },
   "devDependencies": {
     "bower": "^1.8.0",
     "electron": "~1.6.2",
-    "electron-devtools-installer": "^2.2.0",
+
     "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^8.7.0",
     "electron-winstaller": "^2.5.2",
