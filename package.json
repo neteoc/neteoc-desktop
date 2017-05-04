@@ -18,7 +18,7 @@
     "dist-x": "build -ml",
     "release": "build"
   },
-  "repository": "",
+  "repository": "https://github.com/neteoc/neteoc-desktop",
   "keywords": [],
   "author": {
       "name" : "NetEOC Team",
