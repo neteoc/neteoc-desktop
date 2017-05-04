@@ -18,7 +18,7 @@ compile:
     - npm run build-mac && zip -r linux_x64.zip ./release-builds/*-darwin-x64
     - cp -R ./release-builds/*.zip $CIRCLE_ARTIFACTS
 deployment:
-  production:win32win32
+  production:
     branch: prod
     commands:
       - echo Getting Started
