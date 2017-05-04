@@ -13,10 +13,7 @@ dependencies:
     - npm run setup
 compile:
   override:
-    - npm run package-linux && zip -r linux.zip ./release-builds/*-linux-x64
-    - npm run package-win && zip -r Windows.zip ./release-builds/*-win32-ia32
-    - npm run build-mac && zip -r Mac.zip ./release-builds/*-darwin-x64
-    - cp -R ./release-builds/*.zip $CIRCLE_ARTIFACTS
+    - npm run package-linux && zip -r $CIRCLE_ARTIFACTS/linux.zip ./release-builds/*-linux-x64
 deployment:
   production:
     branch: prod
