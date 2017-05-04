@@ -43,6 +43,8 @@
             };
         };
 
+        // TODO: There needs to be an 'add' function to add the object,
+        // and the map (leaflet) specific data (like click and drag) should be separate ...
         $scope.addMapMarker = function(lat, lng, message, draggable) {
             $scope.mapMarkers.push({
                 id: $scope.generateUUID(),
@@ -119,7 +121,6 @@
 
             $scope.editingPoi.fields[Object.keys($scope.editingPoi.fields).length + 1] = "change me";
         }
-
         
         $scope.attachmentAdded = function(event) {
             
@@ -132,6 +133,7 @@
             var reader = new FileReader();
             var fileName = files[0].name;
 
+            // TODO: So, for extracting this out to a service, how can I convert a promise to an asynchronous return?
             reader.onload = function(frEvent) {
 
                 console.log(frEvent);
@@ -174,7 +176,14 @@
             });
         }
 
-        $scope.$on('leafletDirectiveMap.click', $scope.mapClick);
+        // $scope.$on('leafletDirectiveMap.click', $scope.mapClick);
+
+        $scope.markerClick = function(event, args) {
+            
+            $scope.editPoi(args.leafletObject.options);
+            console.log(args.leafletObject.options);
+        }
+        $scope.$on('leafletDirectiveMarker.click', $scope.markerClick);
 
         $scope.init();
     }
