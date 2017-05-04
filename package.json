@@ -1,11 +1,17 @@
 {
   "name": "neteoc-desktop",
+  "productName": "NetEOC-GeoTool",
   "version": "1.0.0",
   "description": "NetEOC Desktop",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "setup": "npm install && ./node_modules/.bin/bower install"
+    "setup": "npm install && ./node_modules/.bin/bower install",
+    "build-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "installer-mac": "electron-installer-dmg ./release-builds/*darwin-x64/*.app NetEOC-GeoTool --out=release-builds --overwrite --icon=app/icons/mac/icon.icns",
+    "package-mac": "npm run build-mac && npm run installer-mac",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --no-prune --out=release-builds"
   },
   "repository": "",
   "keywords": [],
@@ -14,6 +20,9 @@
     "bower": "^1.8.0",
     "electron": "~1.6.2",
     "electron-devtools-installer": "^2.2.0",
+    "electron-installer-dmg": "^0.2.1",
+    "electron-packager": "^8.7.0",
+    "electron-winstaller": "^2.5.2",
     "gulp": "^3.9.1",
     "gulp-run": "^1.7.1",
     "jquery": "^3.2.1",
