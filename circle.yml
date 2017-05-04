@@ -1,7 +1,6 @@
 machine:
   node:
     version: 6.10.0
-
 dependencies:
   pre:
     - sudo dpkg --add-architecture i386
@@ -9,19 +8,15 @@ dependencies:
     - sudo apt-key add Release.key
     - sudo apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
     - sudo apt-get update
-    - sudo apt-get install --install-recommends winehq-stable
-    - sudo apt-get install zip
-
+    - sudo apt-get install --install-recommends winehq-stable zip
   override:
     - npm run setup
-
 compile:
   override:
     - npm run package-linux && zip -r linux_x64.zip ./release-builds/*-linux-x64
     - npm run package-win && zip -r linux_x64.zip ./release-builds/*-win32-ia32
     - npm run build-mac && zip -r linux_x64.zip ./release-builds/*-darwin-x64
     - cp -R ./release-builds/*.zip $CIRCLE_ARTIFACTS
-
 deployment:
   production:win32win32
     branch: prod
