@@ -26,12 +26,13 @@
       "url" : "www.neteoc.com"
   },
   "dependencies": {
-    "electron-devtools-installer": "^2.2.0"
+    "electron-devtools-installer": "^2.2.0",
+    "jquery": "^3.2.1",
+    "serialport": "^4.0.7",
+    "electron": "~1.6.2"
   },
   "devDependencies": {
     "bower": "^1.8.0",
-    "electron": "~1.6.2",
-
     "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^8.7.0",
     "electron-winstaller": "^2.5.2",
@@ -39,9 +40,7 @@
     "electron-prebuilt": "^1.2.0",
     "electron-reload": "^1.0.0",
     "gulp": "^3.9.1",
-    "gulp-run": "^1.7.1",
-    "jquery": "^3.2.1",
-    "serialport": "^4.0.7"
+    "gulp-run": "^1.7.1"
   },
   "build": {
     "appId": "com.neteoc.desktop",
