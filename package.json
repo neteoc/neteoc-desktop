@@ -16,7 +16,8 @@
     "pack": "build --dir",
     "dist": "build",
     "dist-x": "build -ml",
-    "release": "build"
+    "release": "build",
+    "release-windows": "build -wl"
   },
   "repository": "https://github.com/neteoc/neteoc-desktop",
   "keywords": [],
