@@ -36,7 +36,7 @@
             $logProvider.debugEnabled(false);
 
             //register node modules as angular modules
-            //remoteProvider.register({ name: 'Serial', require: 'serialport' });
+            remoteProvider.register({ name: 'SerialPort', require: 'serialport' });
         }
     ]);
 

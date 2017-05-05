@@ -5,8 +5,6 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
     //module for the menu
 const Menu = electron.Menu
-    //serial port
-    //const SerialPort = require('serialport')
 
 const path = require('path')
 const url = require('url')
