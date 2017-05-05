@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module('neteoc').service('menu', menu);
-    menu.$inject = ['$rootScope', '$location', 'Menu', 'currentWindow', 'serial'];
+    menu.$inject = ['$rootScope', '$location', 'Menu', 'currentWindow' /*, 'serialPort'*/ ];
 
-    function menu($rootScope, $location, Menu, currentWindow, serial) {
+    function menu($rootScope, $location, Menu, currentWindow /*, serialPort*/ ) {
         this.init = function() {
 
             var menu = Menu.buildFromTemplate([{

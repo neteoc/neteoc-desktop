@@ -1,21 +1,27 @@
 {
-  "name": "neteoc-desktop",
-  "version": "1.0.0",
-  "description": "NetEOC Desktop",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron ."
-  },
-  "repository": "",
-  "keywords": [],
-  "author": "NetEOC",
-  "devDependencies": {
-    "bower": "^1.8.0",
-    "electron": "~1.6.2",
-    "electron-devtools-installer": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-run": "^1.7.1",
-    "jquery": "^3.2.1",
-    "serialport": "^4.0.7"
-  }
+    "name": "neteoc-desktop",
+    "version": "1.0.0",
+    "description": "NetEOC Desktop",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "rebuild": "electron-rebuild",
+        //"postinstall": "cd node_modules/serialport && node-pre-gyp rebuild --target=1.6.2 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
+        "rebuild:64": "cd node_modules/serialport && node-pre-gyp rebuild --target=1.6.2 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
+        "rebuild:32": "cd node_modules/serialport && node-pre-gyp rebuild --target=1.6.2 --arch=ia32 --dist-url=https://atom.io/download/atom-shell"
+    },
+    "repository": "",
+    "keywords": [],
+    "author": "NetEOC",
+    "devDependencies": {
+        "bower": "^1.8.0",
+        "electron": "~1.6.2",
+        "electron-devtools-installer": "^2.2.0",
+        "electron-rebuild": "^1.5.7",
+        "gulp": "^3.9.1",
+        "gulp-run": "^1.7.1",
+        "jquery": "^3.2.1",
+        "node-gyp": "^3.6.1",
+        "serialport": "^4.0.7"
+    }
 }

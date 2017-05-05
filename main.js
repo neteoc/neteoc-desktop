@@ -5,6 +5,8 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
     //module for the menu
 const Menu = electron.Menu
+    //serial port
+const SerialPort = require('serialport')
 
 const path = require('path')
 const url = require('url')
@@ -37,7 +39,7 @@ function createWindow() {
         slashes: true
     }));
 
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function() {
         // Dereference the window object, usually you would store windows
