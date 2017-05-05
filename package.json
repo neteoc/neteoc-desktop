@@ -1,22 +1,49 @@
 {
   "name": "neteoc-desktop",
+  "productName": "NetEOC-GeoTool",
   "version": "1.0.0",
   "description": "NetEOC Desktop",
+  "homepage": "https://github.com/neteoc/neteoc-desktop",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "setup": "npm install && ./node_modules/.bin/bower install"
+    "setup": "npm install && ./node_modules/.bin/bower install",
+    "build-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --no-prune --out=release-builds",
+    "installer-mac": "electron-installer-dmg ./release-builds/*darwin-x64/*.app NetEOC-GeoTool --out=release-builds --overwrite --icon=app/icons/mac/icon.icns",
+    "package-mac": "npm run build-mac && npm run installer-mac",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --no-prune --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --no-prune --out=release-builds",
+    "pack": "build --dir",
+    "dist": "build",
+    "dist-x": "build -ml",
+    "release": "build"
   },
-  "repository": "",
+  "repository": "https://github.com/neteoc/neteoc-desktop",
   "keywords": [],
-  "author": "NetEOC",
-  "devDependencies": {
-    "bower": "^1.8.0",
-    "electron": "~1.6.2",
+  "author": {
+      "name" : "NetEOC Team",
+      "email" : "tbd@neteoc.com",
+      "url" : "www.neteoc.com"
+  },
+  "dependencies": {
     "electron-devtools-installer": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-run": "^1.7.1",
     "jquery": "^3.2.1",
     "serialport": "^4.0.7"
+  },
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "electron-installer-dmg": "^0.2.1",
+    "electron-packager": "^8.7.0",
+    "electron-winstaller": "^2.5.2",
+    "electron-builder": "^5.16.0",
+    "electron-prebuilt": "^1.2.0",
+    "electron-reload": "^1.0.0",
+    "gulp": "^3.9.1",
+    "gulp-run": "^1.7.1",
+    "electron": "~1.6.2"
+  },
+  "build": {
+    "appId": "com.neteoc.desktop",
+    "app-category-type": "public.app-category.productivity"
   }
 }

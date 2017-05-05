@@ -27,7 +27,11 @@ function createWindow() {
     var menu = Menu.buildFromTemplate([]);
     Menu.setApplicationMenu(menu);
 
-    mainWindow = new BrowserWindow({ width: 800, height: 800 });
+    mainWindow = new BrowserWindow({
+        width: 800,
+        height: 800,
+        icon: path.join(__dirname, 'app/icons/png/64x64.png')
+      });
     // mainWindow.maximize();
 
     // and load the index.html of the app.

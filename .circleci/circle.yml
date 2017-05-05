@@ -1,0 +1,15 @@
+version: 2.0
+jobs:
+  build:
+    docker:
+      - image: ubuntu:16.04
+    working_directory: ~/neteoc
+        steps:
+          - checkout
+          - run: ./circleci.sh
+          - run: npm install
+          - run: mkdir -p zips
+          - run: npm run package-linux && zip -r ./zips/Linux.zip ./release-builds/*-linux-x64
+          - store_artifacts:
+              path: ~/neteoc/zips
+          - add_ssh_keys
