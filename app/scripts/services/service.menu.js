@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module('neteoc').service('menu', menu);
-    menu.$inject = ['$rootScope', '$location', 'Menu', 'currentWindow' /*, 'serialPort'*/ ];
+    menu.$inject = ['$rootScope', '$location', 'Menu', 'currentWindow', 'serialService'];
 
-    function menu($rootScope, $location, Menu, currentWindow /*, serialPort*/ ) {
+    function menu($rootScope, $location, Menu, currentWindow, serialService) {
         this.init = function() {
 
             var menu = Menu.buildFromTemplate([{
@@ -26,6 +26,10 @@
                 {
                     label: 'Dev Tools',
                     click: function() { currentWindow.webContents.openDevTools(); }
+                },
+                {
+                    label: 'Serial Ports',
+                    click: function() { $location.path("/serialports"); }
                 }
             ]);
             Menu.setApplicationMenu(menu);

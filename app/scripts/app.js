@@ -24,6 +24,9 @@
             when('/gis', {
                 templateUrl: 'views/gis/map.html'
             }).
+            when('/serialports', {
+                templateUrl: 'views/system/serialPorts.html'
+            }).
             otherwise({
                 redirectTo: '/'
             });
@@ -36,7 +39,7 @@
             $logProvider.debugEnabled(false);
 
             //register node modules as angular modules
-            remoteProvider.register({ name: 'SerialPort', require: 'serialport' });
+            remoteProvider.register("serialport");
         }
     ]);
 
