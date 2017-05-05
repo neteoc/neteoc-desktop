@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow
     //module for the menu
 const Menu = electron.Menu
     //serial port
-const SerialPort = require('serialport')
+    //const SerialPort = require('serialport')
 
 const path = require('path')
 const url = require('url')
@@ -33,7 +33,7 @@ function createWindow() {
         width: 800,
         height: 800,
         icon: path.join(__dirname, 'app/icons/png/64x64.png')
-      });
+    });
     // mainWindow.maximize();
 
     // and load the index.html of the app.

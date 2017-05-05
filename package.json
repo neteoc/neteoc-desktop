@@ -8,7 +8,7 @@
     "scripts": {
         "start": "electron .",
         "rebuild": "electron-rebuild",
-        //"postinstall": "cd node_modules/serialport && node-pre-gyp rebuild --target=1.6.2 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
+        "x-postinstall": "cd node_modules/serialport && node-pre-gyp rebuild --target=1.6.2 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
         "rebuild:64": "cd node_modules/serialport && node-pre-gyp rebuild --target=1.6.2 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
         "rebuild:32": "cd node_modules/serialport && node-pre-gyp rebuild --target=1.6.2 --arch=ia32 --dist-url=https://atom.io/download/atom-shell",
         "setup": "npm install && ./node_modules/.bin/bower install",
