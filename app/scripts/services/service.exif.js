@@ -3,12 +3,12 @@
     angular.module('neteoc').service('exif', exif);
     exif.$inject = [];
 
-    // Should be https://github.com/exif-js/exif-js/blob/master/exif.js
+    // Should be https://github.com/exif-js/exif-js/blob/master/js
     function exif() {
 
         var debug = false;
 
-        var root = this;
+        var self = this;
 
         this.EXIF = function(obj) {
             if (obj instanceof EXIF) return obj;
@@ -16,16 +16,7 @@
             this.EXIFwrapped = obj;
         };
 
-        if (typeof exports !== 'undefined') {
-            if (typeof module !== 'undefined' && module.exports) {
-                exports = module.exports = EXIF;
-            }
-            exports.EXIF = EXIF;
-        } else {
-            root.EXIF = EXIF;
-        }
-
-        var ExifTags = EXIF.Tags = {
+        var ExifTags = {
 
             // version tags
             0x9000 : "ExifVersion",             // EXIF version
@@ -101,7 +92,7 @@
             0xA420 : "ImageUniqueID"            // Identifier assigned uniquely to each image
         };
 
-        var TiffTags = EXIF.TiffTags = {
+        var TiffTags = TiffTags = {
             0x0100 : "ImageWidth",
             0x0101 : "ImageHeight",
             0x8769 : "ExifIFDPointer",
@@ -137,7 +128,7 @@
             0x8298 : "Copyright"
         };
 
-        var GPSTags = EXIF.GPSTags = {
+        var GPSTags = GPSTags = {
             0x0000 : "GPSVersionID",
             0x0001 : "GPSLatitudeRef",
             0x0002 : "GPSLatitude",
@@ -171,7 +162,7 @@
             0x001E : "GPSDifferential"
         };
 
-        var StringValues = EXIF.StringValues = {
+        var StringValues = StringValues = {
             ExposureProgram : {
                 0 : "Not defined",
                 1 : "Manual",
@@ -759,27 +750,27 @@
             return (FloatD + (FloatM/60) + (FloatS/3600));
         }
 
-        EXIF.getGeoData = function(img) {
+        this.getGeoData = function(img) {
 
-            let latitude = convertToDegree(EXIF.getTag(img, "GPSLatitude"));
-            let longitude = convertToDegree(EXIF.getTag(img, "GPSLongitude"));
+            let latitude = convertToDegree(getTag(img, "GPSLatitude"));
+            let longitude = convertToDegree(getTag(img, "GPSLongitude"));
 
-            if(EXIF.getTag(img, "GPSLatitudeRef") == "S") {
+            if(getTag(img, "GPSLatitudeRef") == "S") {
                 latitude = latitude * -1;
             }
 
-            if(EXIF.getTag(img, "GPSLongitudeRef") == "W") {
+            if(getTag(img, "GPSLongitudeRef") == "W") {
                 longitude = longitude * -1;
             }
 
             return [latitude, longitude];
         }
 
-        EXIF.getData = function(img, callback) {
+        this.getData = function(img, callback) {
             if ((img instanceof Image || img instanceof HTMLImageElement) && !img.complete) return false;
 
-            if (!imageHasData(img)) {
-                getImageData(img, callback);
+            if (!self.imageHasData(img)) {
+                self.getImageData(img, callback);
             } else {
                 if (callback) {
                     callback.call(img);
@@ -788,13 +779,13 @@
             return true;
         }
 
-        EXIF.getTag = function(img, tag) {
-            if (!imageHasData(img)) return;
+        this.getTag = function(img, tag) {
+            if (!self.imageHasData(img)) return;
             return img.exifdata[tag];
         }
 
-        EXIF.getAllTags = function(img) {
-            if (!imageHasData(img)) return {};
+        this.getAllTags = function(img) {
+            if (!self.imageHasData(img)) return {};
             var a,
                 data = img.exifdata,
                 tags = {};
@@ -806,7 +797,7 @@
             return tags;
         }
 
-        EXIF.pretty = function(img) {
+        this.pretty = function(img) {
             if (!imageHasData(img)) return "";
             var a,
                 data = img.exifdata,
@@ -827,15 +818,17 @@
             return strPretty;
         }
 
-        EXIF.readFromBinaryFile = function(file) {
+        this.readFromBinaryFile = function(file) {
             return findEXIFinJPEG(file);
         }
 
+/*
         if (typeof define === 'function' && define.amd) {
             define('exif-js', [], function() {
                 return EXIF;
             });
         }
+*/
     };
 
 })();
