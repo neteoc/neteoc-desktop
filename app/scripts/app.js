@@ -8,7 +8,6 @@
         'ngAnimate',
         'ngTouch',
         "LocalStorageModule",
-        'leaflet-directive',
         "datatables",
         "xeditable"
     ]);

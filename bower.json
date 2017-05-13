@@ -31,6 +31,7 @@
     "datatables.net-bs": "^2.1.1",
     "angular-datatables": "^4.0.0",
     "jquery": "^3.2.1",
-    "angular-xeditable": "^0.7.1"
+    "angular-xeditable": "^0.7.1",
+    "ui-leaflet": "^2.0.0"
   }
 }

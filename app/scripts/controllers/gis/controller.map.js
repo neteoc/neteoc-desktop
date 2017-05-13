@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', 'leafletData', '$uibModal', 'exif', '$uibModalStack'];
+    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack'];
 
-    function mapCtrl($scope, leaflet, uibModal, exif, $uibModalStack) {
+    function mapCtrl($scope, uibModal, exif, $uibModalStack) {
 
         $scope.init = function() {
 
