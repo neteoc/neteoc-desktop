@@ -27,19 +27,13 @@
         "email": "tbd@neteoc.com",
         "url": "www.neteoc.com"
     },
-    "dependencies": {
-        "electron-devtools-installer": "^2.2.0",
-        "jquery": "^3.2.1",
-        "serialport": "^4.0.7"
-    },
     "devDependencies": {
         "bower": "^1.8.0",
-        "electron": "^1.6.6",
+        "electron": "1.6.8",
         "electron-builder": "^5.16.0",
         "electron-devtools-installer": "^2.2.0",
         "electron-installer-dmg": "^0.2.1",
         "electron-packager": "^8.7.0",
-        "electron-prebuilt": "^1.2.0",
         "electron-rebuild": "^1.5.7",
         "electron-reload": "^1.0.0",
         "electron-winstaller": "^2.5.2",

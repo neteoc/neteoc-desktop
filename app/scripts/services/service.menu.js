@@ -29,7 +29,10 @@
                 },
                 {
                     label: 'Serial Ports',
-                    click: function() { $location.path("/serialports"); }
+                    click: function() {
+                        $location.path("/serialports");
+                        $rootScope.$apply();
+                    }
                 }
             ]);
             Menu.setApplicationMenu(menu);
