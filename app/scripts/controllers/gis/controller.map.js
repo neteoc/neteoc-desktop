@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack'];
+    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData'];
 
-    function mapCtrl($scope, uibModal, exif, $uibModalStack) {
+    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData) {
 
         $scope.init = function() {
 
@@ -178,6 +178,30 @@
             console.log(args.leafletObject.options);
         }
         $scope.$on('leafletDirectiveMarker.click', $scope.markerClick);
+        
+        $scope.saveKml = function() {
+
+            leafletData.getMarkers().then(function(arg1) {
+                
+                console.log(arg1);
+                console.log($scope.mapMarkers);
+            });
+            return;
+
+            // TODO: KML Mappings (timestamp, etc.)
+            // TODO: KML Properties (document name, should probably be like the name of the incident)
+
+            /*
+            var kmlDoc = tokml($scope.geojson.data);
+
+            // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storageObj));
+            var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(kmlDoc);
+            var dlAnchorElem = document.getElementById('downloadAnchorElem');
+            dlAnchorElem.setAttribute("href",     dataStr     );
+            dlAnchorElem.setAttribute("download", "neteoc.kml");
+            dlAnchorElem.click();
+            */
+        }
 
         $scope.init();
     }
