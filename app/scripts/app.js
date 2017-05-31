@@ -39,7 +39,7 @@
             $logProvider.debugEnabled(false);
 
             //register node modules as angular modules
-            remoteProvider.register("serialport");
+            // remoteProvider.register("serialport");
         }
     ]);
 
