@@ -191,22 +191,18 @@
                 
                 console.log(arg1);
                 console.log($scope.mapMarkers);
+
+                // TODO: KML Mappings (timestamp, etc.)
+                // TODO: KML Properties (document name, should probably be like the name of the incident)
+
+                // var kmlDoc = tokml($scope.geojson.data);
+
+                var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(JSON.stringify($scope.mapMarkers));
+                var dlAnchorElem = document.getElementById('downloadAnchorElem');
+                dlAnchorElem.setAttribute("href",     dataStr     );
+                dlAnchorElem.setAttribute("download", "neteoc.kml");
+                dlAnchorElem.click();
             });
-            return;
-
-            // TODO: KML Mappings (timestamp, etc.)
-            // TODO: KML Properties (document name, should probably be like the name of the incident)
-
-            /*
-            var kmlDoc = tokml($scope.geojson.data);
-
-            // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storageObj));
-            var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(kmlDoc);
-            var dlAnchorElem = document.getElementById('downloadAnchorElem');
-            dlAnchorElem.setAttribute("href",     dataStr     );
-            dlAnchorElem.setAttribute("download", "neteoc.kml");
-            dlAnchorElem.click();
-            */
         }
 
         $scope.init();
