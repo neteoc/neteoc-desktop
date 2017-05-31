@@ -18,7 +18,7 @@
             $scope.mapMarkers = JSON.parse(localStorage.getItem("mapMarkers")) || [];
 
             if($scope.mapMarkers.length == 0) {
-                $scope.addMapMarker(32.837, -83.632, "Welcome to Macon!", false);
+                $scope.addMapMarker(32.837, -83.632, "Maconga", "Welcome to Macon!", false);
             }
         };
     
@@ -45,12 +45,13 @@
 
         // TODO: There needs to be an 'add' function to add the object,
         // and the map (leaflet) specific data (like click and drag) should be separate ...
-        $scope.addMapMarker = function(lat, lng, message, draggable) {
+        $scope.addMapMarker = function(lat, lng, name, description, draggable) {
             $scope.mapMarkers.push({
                 id: $scope.generateUUID(),
                 lat: lat,
                 lng: lng,
-                message: message,
+                name: name,
+                description: description,
                 draggable: draggable,
                 uploaded: false,
                 created: $scope.getCurrentUnixTime(),
@@ -82,22 +83,15 @@
             return (new Date()).getTime()/1000|0;
         }
 
-        $scope.mapClick = function(event, args) {
-
-            $scope.addMapMarker(args.leafletEvent.latlng.lat, args.leafletEvent.latlng.lng, "<a href='#!/'>Hello</a>", false);
-
-            $scope.editPoi($scope.mapMarkers[$scope.mapMarkers.length - 1]);
-        };
-
         /**
          * Functions that need to go in the pointsofinterest service
          */
         $scope.editPoi = function(pointOfInterest) {
 
-            // TODO: Fix when not sleepy ...
+            // TODO: Default values shouldn't be added to map marker list until the user saves the marker?
             if(pointOfInterest == null) {
                 console.log("I don't think we should be here.");
-                $scope.addMapMarker(0, 0, "<a href='#!/'>Hello</a>", false);
+                $scope.addMapMarker(0, 0, "", "<a href='#!/'>Hello</a>", false);
                 pointOfInterest = $scope.mapMarkers[$scope.mapMarkers.length - 1];
             }
 
