@@ -9,7 +9,8 @@
         'ngTouch',
         "LocalStorageModule",
         "datatables",
-        "xeditable"
+        "xeditable",
+        'ui-leaflet'
     ]);
 
     angular.module('neteoc').config(['$locationProvider', '$routeProvider', '$logProvider', 'localStorageServiceProvider', 'remoteProvider',
