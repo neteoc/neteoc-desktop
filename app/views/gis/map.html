@@ -11,6 +11,7 @@
 
     <table datatable="ng" class="row-border hover">
         <thead>
+            <th>Name</th>
             <th>Latitude</th>
             <th>Longitude</th>
             <th>Last Updated</th>
@@ -19,6 +20,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="pin in mapMarkers">
+                <td>{{pin.name}}</td>
                 <td>{{pin.lat}}</td>
                 <td>{{pin.lng}}</td>
                 <td></td>

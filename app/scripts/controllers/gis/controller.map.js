@@ -55,9 +55,7 @@
                 draggable: draggable,
                 uploaded: false,
                 created: $scope.getCurrentUnixTime(),
-                fields: {
-                    "first thing": "change me"
-                },
+                fields: { },
                 attachments: {}
             });
 
@@ -91,7 +89,7 @@
             // TODO: Default values shouldn't be added to map marker list until the user saves the marker?
             if(pointOfInterest == null) {
                 console.log("I don't think we should be here.");
-                $scope.addMapMarker(0, 0, "", "<a href='#!/'>Hello</a>", false);
+                $scope.addMapMarker(0, 0, "Hello", "<a href='#!/'>Hello</a>", false);
                 pointOfInterest = $scope.mapMarkers[$scope.mapMarkers.length - 1];
             }
 
@@ -114,6 +112,11 @@
         $scope.addNewPinField = function() {
 
             $scope.editingPoi.fields[Object.keys($scope.editingPoi.fields).length + 1] = "change me";
+        }
+
+        $scope.deletePinField = function(fieldKey) {
+
+            delete $scope.editingPoi.fields[fieldKey];
         }
         
         $scope.attachmentAdded = function(event) {

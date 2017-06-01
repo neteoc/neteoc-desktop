@@ -3,7 +3,7 @@
         <div class="modal-dialog">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span>×</span></button>
-                    <h4 editable-text="editingPoi.message" class="modal-title" onaftersave="savePoi()">{{editingPoi.message}}</h4>
+                    <h4 editable-text="editingPoi.name" class="modal-title" onaftersave="savePoi()">{{editingPoi.name}}</h4>
                 </div>
                 <div class="modal-body">
                     <form id="newPinForm" name="newPinForm" class="ng-pristine ng-valid">
@@ -18,26 +18,42 @@
                             </p>
                         </div>
                         <div class="form-group">
-                            <label for="message">Fields: </label>
+                            <label>Description: </label>
+                            <br />
+                            <textarea>{{editingPoi.description}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Fields: </label>
+                            <button ng-click="addNewPinField()" class="btn btn-default">
+                              <span class="glyphicon glyphicon-plus"></span>
+                            </button>
                             <div ng-repeat="(fieldKey, fieldValue) in editingPoi.fields" class="ng-scope">
-                              <input type="text" ng-model="fieldKey"> <input type="text" ng-model="fieldValue">
+                                <!-- TODO: prevent (saving) duplicate key -->
+                                <input type="text" ng-model="fieldKey"> 
+                                <input type="text" ng-model="fieldValue"> 
+                                <button ng-click="deletePinField(fieldKey)" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button ng-click="addNewPinField()" class="btn btn-primary" id="newPinAddFieldButton">
-                              <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Attachments: </label>
-                            <input type="file" id="newAttachment" custom-on-change="attachmentAdded">
+                            <label>Attachments: </label>
+                            <label class="btn btn-default btn-file">
+                                Choose File <input type="file" style="display: none;" />
+                            </label>
+                            <!--
+                            <input class="file" type="file" id="newAttachment" custom-on-change="attachmentAdded">
+                            -->
                             <div id="imagePreview"></div>
                             <input type="button" ng-show="editingPoi.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
                         </div>
                     </form>
                 </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" ng-click="savePoi()" ng-disabled="newPinForm.$invalid">Done</button>
+                <button class="btn">Copy</button>
+                <button type="submit" class="btn btn-success" ng-click="savePoi()" ng-disabled="newPinForm.$invalid">
+                                    <span class="glyphicon glyphicon-floppy"></span> Save
+                </button>
                 <button ng-click="deleteMapMarker(editingPoi)" type="submit" class="btn btn-danger">
                     <span class="glyphicon glyphicon-trash"> Delete</span>
                 </button>
