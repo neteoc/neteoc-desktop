@@ -24,6 +24,9 @@ function createWindow() {
         .then((name) => console.log(`Added Extension:  ${name}`))
         .catch((err) => console.log('An error occurred: ', err));
 
+        // from https://github.com/electron/electron/blob/master/docs/api/environment-variables.md
+    process.env.GOOGLE_API_KEY = "AIzaSyAQI1ROikSRhdOJusM9R-hFbTmFULxfEns";
+
     var menu = Menu.buildFromTemplate([]);
     Menu.setApplicationMenu(menu);
 

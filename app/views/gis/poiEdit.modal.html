@@ -13,8 +13,8 @@
                             <label for="longitude">Longitude: </label>
                             <input type="text" ng-model="editingPoi.lng" class="ng-pristine ng-untouched ng-valid ng-not-empty">
                             <p>
-                                <button class="btn btn-secondary">From device...</button>
-                                <button class="btn btn-secondary">From file...</button>
+                                <button class="btn btn-default" ng-click="locationFromDevice()">From device...</button>
+                                <button class="btn btn-default">From file...</button>
                             </p>
                         </div>
                         <div class="form-group">

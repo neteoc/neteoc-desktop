@@ -81,6 +81,34 @@
             return (new Date()).getTime()/1000|0;
         }
 
+        $scope.locationFromDevice = function() {
+
+            // TODO: Flag as 'enabled' or not for UI ...
+            // No connection = no can do :(   (this should ideally be improved / resolved ...)
+
+            // TODO: cache location so that API isn't choked
+            // https://github.com/electron/electron/issues/7861
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function success(position) {
+
+                    console.log(position);
+                    // TODO: if accuracy is above ... something ...
+
+                    // TODO: this doesn't seem to refresh the digest :(
+                    $scope.editingPoi.lng = position.coords.longitude;
+                    $scope.editingPoi.lat = position.coords.latitude;
+                    
+                }, function error(error) {
+
+                    console.log(error);
+                });
+            }
+        }
+
+        $scope.getCurrentPositionCallback = function(position) {
+        }
+
         /**
          * Functions that need to go in the pointsofinterest service
          */
