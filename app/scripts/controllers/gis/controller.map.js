@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData'];
+    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml'];
 
-    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData) {
+    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService) {
 
         $scope.init = function() {
 
@@ -189,12 +189,14 @@
                 console.log(arg1);
                 console.log($scope.mapMarkers);
 
+                var kmlDoc = kmlService.toKml($scope.mapMarkers);
+
                 // TODO: KML Mappings (timestamp, etc.)
                 // TODO: KML Properties (document name, should probably be like the name of the incident)
 
                 // var kmlDoc = tokml($scope.geojson.data);
 
-                var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(JSON.stringify($scope.mapMarkers));
+                var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(kmlDoc);
                 var dlAnchorElem = document.getElementById('downloadAnchorElem');
                 dlAnchorElem.setAttribute("href",     dataStr     );
                 dlAnchorElem.setAttribute("download", "neteoc.kml");

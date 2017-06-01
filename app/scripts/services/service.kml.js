@@ -8,11 +8,13 @@
             
             console.log(mapMarkers);
 
-            var kmlString = buildHeader();
+            // TODO: This should really be more of like a builder with a string output ...
 
-            kmlString = buildEntries(kmlString, mapMarkers);
+            var kmlString = this.buildHeader();
 
-            kmlString = buildFooter(kmlString);
+            kmlString = this.buildEntries(kmlString, mapMarkers);
+
+            kmlString = this.buildFooter(kmlString);
 
             return kmlString;
         }
@@ -21,18 +23,26 @@
 
             for(var index in mapMarkers) {
 
-                kmlString += this.buildEntry(mapmarkers[index]);
+                kmlString += this.buildEntry(mapMarkers[index]);
             }
+
+            return kmlString;
         }
 
         this.buildEntry = function(mapMarker) {
 
+            // TODO: If property is empty, skip it ...
+
             return '<Placemark>\n' +
-            // name
-            //style url? (is probably marker icon)
-            // point
-                //coordinates
-            '</Placemark>';
+                '   <name>' + mapMarker.name + '</name>\n' +
+                '   <description>' + mapMarker.description + '</description>\n' +
+                //style url? (is probably marker icon)
+                '   <Point>\n' +
+                '       <coordinates>\n' +
+                '           ' + mapMarker.lng + ',' + mapMarker.lat + '\n' +
+                '       </coordinates>' +
+                '   </Point>\n' +
+            '</Placemark>\n';
         }
 
         this.buildHeader = function() {
@@ -45,7 +55,7 @@
                     '       <description/>\n';
         }
 
-        this.buildHeader = function(kmlString) {
+        this.buildFooter = function(kmlString) {
 
             return kmlString + 
                 '   </Document>\n' +
