@@ -66,3 +66,8 @@ body {
 .dataTables_wrapper {
     max-width: 98%;
 }
+
+.resize-2s {
+    transition-property: width,height,transform,background,font-size,opacity;
+    transition-duration: 1s,1s,1s,1s,1s,1s;
+}

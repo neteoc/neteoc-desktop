@@ -117,7 +117,8 @@
             // TODO: Default values shouldn't be added to map marker list until the user saves the marker?
             if(pointOfInterest == null) {
                 console.log("I don't think we should be here.");
-                $scope.addMapMarker(0, 0, "Hello", "<a href='#!/'>Hello</a>", false);
+                $scope.addMapMarker($scope.mapCenter.lat, $scope.mapCenter.lng, 
+                    "name of point", "description of point", false);
                 pointOfInterest = $scope.mapMarkers[$scope.mapMarkers.length - 1];
             }
 

@@ -1,27 +1,62 @@
 
 <div id="newPinModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span>×</span></button>
                     <h4 editable-text="editingPoi.name" class="modal-title" onaftersave="savePoi()">{{editingPoi.name}}</h4>
                 </div>
+
                 <div class="modal-body">
                     <form id="newPinForm" name="newPinForm" class="ng-pristine ng-valid">
+
                         <div class="form-group">
-                            <label for="latitude">Latitude: </label>
-                            <input type="text" ng-model="editingPoi.lat" class="ng-pristine ng-untouched ng-valid ng-not-empty">
-                            <label for="longitude">Longitude: </label>
-                            <input type="text" ng-model="editingPoi.lng" class="ng-pristine ng-untouched ng-valid ng-not-empty">
+                            <!-- TODO: max width = modal width -->
+                            <textarea class="form-control" rows="3" ng-model="editingPoi.description"></textarea>
+                        </div>
+
+                        <!--
+                            Alternatively, maybe labels on top? 
+                            https://stackoverflow.com/questions/41537669/bootstrap-form-group-with-labels-above-inputs-and-easyui-controls
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <label for="latitude">Lat:</label>
+                                    <input name="latitude" type="text" ng-model="editingPoi.lat" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <label for="longitude">Long:</label>
+                                    <input name="longitude" type="text" ng-model="editingPoi.lng" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty">
+                                </div>
+                            </div>
+                        </div>
+                        -->
+
+                        <div class="input-group">
+                            <span class="input-group-addon">Latitude: </span>
+                            <input type="text" ng-model="editingPoi.lat" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty">
+                            <span class="input-group-addon">Longitude: </span>
+                            <input type="text" ng-model="editingPoi.lng" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty">
+                            <!-- Rather than the "from device" button, we could add a button here with glyphicon-screenshot ....-->
+                        </div>
+
+                        <p></p>
+
+                        <div class="form-group">
                             <p>
-                                <button class="btn btn-default" ng-click="locationFromDevice()">From device...</button>
-                                <button class="btn btn-default">From file...</button>
+                                <label>Get lat & long from ...</label>
+                                <button class="btn btn-default" ng-click="locationFromDevice()">
+                                    <!-- TODO: Really this should be a laptop, not a phone. Misleading. -->
+                                    <span class="glyphicon glyphicon-phone"></span> Device
+                                </button>
+                                <button class="btn btn-default">
+                                    <span class="glyphicon glyphicon-file"></span> File
+                                </button>
                             </p>
                         </div>
-                        <div class="form-group">
-                            <label>Description: </label>
-                            <br />
-                            <textarea>{{editingPoi.description}}</textarea>
-                        </div>
+
                         <div class="form-group">
                             <label>Fields: </label>
                             <button ng-click="addNewPinField()" class="btn btn-default">
@@ -37,22 +72,23 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Attachments: </label>
-                            <label class="btn btn-default btn-file">
-                                Choose File <input type="file" style="display: none;" />
-                            </label>
-                            <!--
-                            <input class="file" type="file" id="newAttachment" custom-on-change="attachmentAdded">
-                            -->
+                            <!-- TODO: click for button should trigger the input's click ... -->
+                            <!-- TODO: Make this thing expand slowly somehow, and not change height -->
+                            <button class="btn btn-default resize-2s" ng-mouseover="showAttachmentsText=true" ng-mouseleave="showAttachmentsText=false">
+                                <label class="glyphicon glyphicon-paperclip">
+                                    <input type="file" style="display: none;" />
+                                </label>
+                                <label ng-show="showAttachmentsText"> Attachments</label>
+                            </button>
                             <div id="imagePreview"></div>
                             <input type="button" ng-show="editingPoi.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
                         </div>
                     </form>
                 </div>
             <div class="modal-footer">
-                <button class="btn">Copy</button>
+                <button class="btn btn-default">Copy</button>
                 <button type="submit" class="btn btn-success" ng-click="savePoi()" ng-disabled="newPinForm.$invalid">
-                                    <span class="glyphicon glyphicon-floppy"></span> Save
+                                    <span class="glyphicon glyphicon-save"></span> Save
                 </button>
                 <button ng-click="deleteMapMarker(editingPoi)" type="submit" class="btn btn-danger">
                     <span class="glyphicon glyphicon-trash"> Delete</span>
