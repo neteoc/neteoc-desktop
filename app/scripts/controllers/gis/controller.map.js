@@ -190,6 +190,12 @@
             delete $scope.editingPoi.attachments[attachmentName];
         }
 
+        $scope.latLongFromAttachment = function(attachmentName) {
+
+            $scope.editingPoi.lng = $scope.editingPoi.attachments[attachmentName].lng;
+            $scope.editingPoi.lat = $scope.editingPoi.attachments[attachmentName].lat;
+        }
+
         $scope.markerClick = function(event, args) {
             
             $scope.editPoi(args.leafletObject.options);

@@ -68,7 +68,7 @@
                                 <button ng-click="deleteAttachment(attachmentName)" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-minus"></span>
                                 </button>
-                                <button ng-click="latLongFromAttachment(attachmentName)" class="btn btn-default">
+                                <button ng-click="latLongFromAttachment(attachmentName)" class="btn btn-default" ng-show="attachment.lat != null">
                                     <span class="glyphicon glyphicon-screenshot"></span>
                                 </button>
                                 <!--
