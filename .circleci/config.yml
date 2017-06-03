@@ -6,6 +6,7 @@ jobs:
     working_directory: ~/neteoc
     steps:
       - checkout
+      - run: dpkg --add-architecture i386
       - run: apt update && apt upgrade -y
       - run: apt install -y curl build-essential wine wine1.6
       - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
