@@ -6,7 +6,6 @@ jobs:
     working_directory: ~/neteoc
     steps:
       - checkout
-      - run: ./circleci.sh
       - run: npm install
       - run: mkdir -p zips
       - run: npm run package-linux && zip -r ./zips/Linux.zip ./release-builds/*-linux-x64
