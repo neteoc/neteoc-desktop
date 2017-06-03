@@ -6,4 +6,5 @@ jobs:
    working_directory: ~/neteoc
    steps:
      - checkout
+     - run: npm install
      - run: npm run release-windows
