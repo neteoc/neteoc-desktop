@@ -12,7 +12,7 @@ const url = require('url')
 // The following does not work. Best explanation found is: https://github.com/electron/electron/issues/8647
 const NG_INSPECTOR = 'aadgmnobpdmgmigaicncghmmoeflnamj';
 
-const { default: installExtension, ANGULARJS_BATARANG } = require('electron-devtools-installer');
+// const { default: installExtension, ANGULARJS_BATARANG } = require('electron-devtools-installer');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,9 +20,11 @@ let mainWindow
 
 function createWindow() {
 
+    /*
     installExtension(ANGULARJS_BATARANG)
         .then((name) => console.log(`Added Extension:  ${name}`))
         .catch((err) => console.log('An error occurred: ', err));
+    */
 
         // from https://github.com/electron/electron/blob/master/docs/api/environment-variables.md
     process.env.GOOGLE_API_KEY = "AIzaSyAQI1ROikSRhdOJusM9R-hFbTmFULxfEns";
