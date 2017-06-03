@@ -418,7 +418,7 @@
                 if (marker == 225) {
                     if (debug) console.log("Found 0xFFE1 marker");
 
-                    return readEXIFData(dataView, offset + 4, dataView.getUint16(offset + 2) - 2);
+                    return this.readEXIFData(dataView, offset + 4, dataView.getUint16(offset + 2) - 2);
 
                     // offset += 2 + file.getShortAt(offset+2, true);
 
@@ -540,7 +540,7 @@
                 entryOffset = dirStart + i*12 + 2;
                 tag = strings[file.getUint16(entryOffset, !bigEnd)];
                 if (!tag && debug) console.log("Unknown tag: " + file.getUint16(entryOffset, !bigEnd));
-                tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd);
+                tags[tag] = this.readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd);
             }
             return tags;
         }
@@ -570,7 +570,7 @@
 
                 case 2: // ascii, 8-bit byte
                     offset = numValues > 4 ? valueOffset : (entryOffset + 8);
-                    return getStringFromDB(file, offset, numValues-1);
+                    return this.getStringFromDB(file, offset, numValues-1);
 
                 case 3: // short, 16 bit int
                     if (numValues == 1) {
@@ -641,15 +641,15 @@
 
         this.getStringFromDB = function(buffer, start, length) {
             var outstr = "";
-            for (n = start; n < start+length; n++) {
+            for (var n = start; n < start+length; n++) {
                 outstr += String.fromCharCode(buffer.getUint8(n));
             }
             return outstr;
         }
 
         this.readEXIFData = function(file, start) {
-            if (getStringFromDB(file, start, 4) != "Exif") {
-                if (debug) console.log("Not valid EXIF data! " + getStringFromDB(file, start, 4));
+            if (this.getStringFromDB(file, start, 4) != "Exif") {
+                if (debug) console.log("Not valid EXIF data! " + this.getStringFromDB(file, start, 4));
                 return false;
             }
 
@@ -680,10 +680,10 @@
                 return false;
             }
 
-            tags = readTags(file, tiffOffset, tiffOffset + firstIFDOffset, TiffTags, bigEnd);
+            tags = this.readTags(file, tiffOffset, tiffOffset + firstIFDOffset, TiffTags, bigEnd);
 
             if (tags.ExifIFDPointer) {
-                exifData = readTags(file, tiffOffset, tiffOffset + tags.ExifIFDPointer, ExifTags, bigEnd);
+                exifData = this.readTags(file, tiffOffset, tiffOffset + tags.ExifIFDPointer, ExifTags, bigEnd);
                 for (tag in exifData) {
                     switch (tag) {
                         case "LightSource" :
@@ -722,7 +722,7 @@
             }
 
             if (tags.GPSInfoIFDPointer) {
-                gpsData = readTags(file, tiffOffset, tiffOffset + tags.GPSInfoIFDPointer, GPSTags, bigEnd);
+                gpsData = this.readTags(file, tiffOffset, tiffOffset + tags.GPSInfoIFDPointer, GPSTags, bigEnd);
                 for (tag in gpsData) {
                     switch (tag) {
                         case "GPSVersionID" :

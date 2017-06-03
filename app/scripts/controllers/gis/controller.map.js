@@ -98,15 +98,14 @@
                     // TODO: this doesn't seem to refresh the digest :(
                     $scope.editingPoi.lng = position.coords.longitude;
                     $scope.editingPoi.lat = position.coords.latitude;
+
+                    $scope.$digest();
                     
                 }, function error(error) {
 
                     console.log(error);
                 });
             }
-        }
-
-        $scope.getCurrentPositionCallback = function(position) {
         }
 
         /**
