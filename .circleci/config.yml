@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: ubuntu:1604
+      - image: ubuntu:16.04
     working_directory: ~/neteoc
     steps:
       - checkout
