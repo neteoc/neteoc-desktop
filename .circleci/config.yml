@@ -14,7 +14,5 @@ jobs:
      - run: apt-get install -y --install-recommends winehq-stable
      - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
      - run: apt install -y nodejs
-     - run: npm install -g bower
-     - run: npm install
-     - run: bower install 
+     - run: npm run setup
      - run: npm run release-windows
