@@ -11,28 +11,8 @@
                     <form id="newPinForm" name="newPinForm" class="ng-pristine ng-valid">
 
                         <div class="form-group">
-                            <!-- TODO: max width = modal width -->
                             <textarea class="form-control" rows="3" ng-model="editingPoi.description"></textarea>
                         </div>
-
-                        <!--
-                            Alternatively, maybe labels on top? 
-                            https://stackoverflow.com/questions/41537669/bootstrap-form-group-with-labels-above-inputs-and-easyui-controls
-                        <div class="form-inline">
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    <label for="latitude">Lat:</label>
-                                    <input name="latitude" type="text" ng-model="editingPoi.lat" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    <label for="longitude">Long:</label>
-                                    <input name="longitude" type="text" ng-model="editingPoi.lng" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty">
-                                </div>
-                            </div>
-                        </div>
-                        -->
 
                         <div class="input-group">
                             <span class="input-group-addon">Latitude: </span>
@@ -80,10 +60,21 @@
                                 </label>
                                 <label ng-show="showAttachmentsText"> Attachments</label>
                             </button>
+                            <!-- TODO: Clear all attachments button -->
                         </div>
                         <div class="form-group">
-                            <div id="imagePreview"></div>
+                            <div class="attachmentContainer" ng-repeat="(attachmentName, attachment) in editingPoi.attachments" class="ng-scope">
+                                <img width="140px" height="140px" data-ng-src="{{attachment.imageSrc}}" />
+                                <button ng-click="deleteAttachment(attachmentName)" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                                <button ng-click="latLongFromAttachment(attachmentName)" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-screenshot"></span>
+                                </button>
+                                <!--
                             <input type="button" ng-show="editingPoi.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
+                            -->
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -95,6 +86,7 @@
                 <button ng-click="deleteMapMarker(editingPoi)" type="submit" class="btn btn-danger">
                     <span class="glyphicon glyphicon-trash"> Delete</span>
                 </button>
+                <!-- TODO: Cancel (revert from localstorage ...) -->
             </div>
         </div>
     </div>

@@ -71,3 +71,33 @@ body {
     transition-property: width,height,transform,background,font-size,opacity;
     transition-duration: 1s,1s,1s,1s,1s,1s;
 }
+
+.modal-body textarea {
+    max-width: 100%;
+}
+
+.attachmentContainer {
+    position: relative;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.attachmentContainer button {
+    position: absolute;
+    opacity: 0;
+    top: 4px;
+    text-align: center;
+    transition: opacity .35s ease;
+}
+
+.attachmentContainer button.btn-default {
+    left: 4px;
+}
+
+.attachmentContainer button.btn-danger {
+    right: 4px;
+}
+
+.attachmentContainer:hover button {
+    opacity: 1;
+}
