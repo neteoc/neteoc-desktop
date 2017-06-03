@@ -76,10 +76,12 @@
                             <!-- TODO: Make this thing expand slowly somehow, and not change height -->
                             <button class="btn btn-default resize-2s" ng-mouseover="showAttachmentsText=true" ng-mouseleave="showAttachmentsText=false">
                                 <label class="glyphicon glyphicon-paperclip">
-                                    <input type="file" style="display: none;" />
+                                    <input type="file" style="display: none;" custom-on-change="attachmentAdded" />
                                 </label>
                                 <label ng-show="showAttachmentsText"> Attachments</label>
                             </button>
+                        </div>
+                        <div class="form-group">
                             <div id="imagePreview"></div>
                             <input type="button" ng-show="editingPoi.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
                         </div>

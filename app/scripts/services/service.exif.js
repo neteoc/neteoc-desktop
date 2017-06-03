@@ -339,9 +339,12 @@
         }
 
         this.getImageData = function(img, callback) {
+
+            var vm = this;
+
             function handleBinaryFile(binFile) {
-                var data = findEXIFinJPEG(binFile);
-                var iptcdata = findIPTCinJPEG(binFile);
+                var data = vm.findEXIFinJPEG(binFile);
+                var iptcdata = vm.findIPTCinJPEG(binFile);
                 img.exifdata = data || {};
                 img.iptcdata = iptcdata || {};
                 if (callback) {
@@ -351,13 +354,13 @@
 
             if (img.src) {
                 if (/^data\:/i.test(img.src)) { // Data URI
-                    var arrayBuffer = base64ToArrayBuffer(img.src);
-                    handleBinaryFile(arrayBuffer);
+                    var arrayBuffer = exif.base64ToArrayBuffer(img.src);
+                    exif.handleBinaryFile(arrayBuffer);
 
                 } else if (/^blob\:/i.test(img.src)) { // Object URL
                     var fileReader = new FileReader();
                     fileReader.onload = function(e) {
-                        handleBinaryFile(e.target.result);
+                        exif.handleBinaryFile(e.target.result);
                     };
                     objectURLToBlob(img.src, function (blob) {
                         fileReader.readAsArrayBuffer(blob);
@@ -467,7 +470,7 @@
                     var startOffset = offset + 8 + nameHeaderLength;
                     var sectionLength = dataView.getUint16(offset + 6 + nameHeaderLength);
 
-                    return readIPTCData(file, startOffset, sectionLength);
+                    return this.readIPTCData(file, startOffset, sectionLength);
 
                     break;
 
@@ -752,14 +755,14 @@
 
         this.getGeoData = function(img) {
 
-            let latitude = convertToDegree(getTag(img, "GPSLatitude"));
-            let longitude = convertToDegree(getTag(img, "GPSLongitude"));
+            let latitude = this.convertToDegree(this.getTag(img, "GPSLatitude"));
+            let longitude = this.convertToDegree(this.getTag(img, "GPSLongitude"));
 
-            if(getTag(img, "GPSLatitudeRef") == "S") {
+            if(this.getTag(img, "GPSLatitudeRef") == "S") {
                 latitude = latitude * -1;
             }
 
-            if(getTag(img, "GPSLongitudeRef") == "W") {
+            if(this.getTag(img, "GPSLongitudeRef") == "W") {
                 longitude = longitude * -1;
             }
 
