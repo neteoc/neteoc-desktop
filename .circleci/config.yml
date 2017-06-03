@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: apt update && apt upgrade -y
-      - run: apt install -y curl build-essential
+      - run: apt install -y curl build-essential wine
       - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
       - run: apt install -y nodejs
       - run: npm install
