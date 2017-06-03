@@ -1,17 +1,18 @@
 version: 2.0
 jobs:
-  build:
-    docker:
-      - image: ubuntu:16.04
-    working_directory: ~/neteoc
-    steps:
-      - checkout
-      - run: dpkg --add-architecture i386
-      - run: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
-      - run: apt update && apt upgrade -y
-      - run: apt install -y curl build-essential wine wine1.6 git openssh-client
-      - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
-      - run: apt install -y nodejs
-      - run: npm install
-      - run: npm run release-windows
-    
+ build:
+   docker:
+     - image: ubuntu:16.04
+   working_directory: ~/neteoc
+   steps:
+     - checkout
+     - run: dpkg --add-architecture i386
+     - run: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+     - run: apt update && apt upgrade -y
+     - run: apt install -y curl build-essential git openssh-client wget
+     - run: wget -nc https://dl.winehq.org/wine-builds/Release.key && apt-key add Release.key && apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && apt update
+     - run: apt-get install --install-recommends winehq-stable
+     - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
+     - run: apt install -y nodejs
+     - run: npm install
+     - run: npm run release-windows
