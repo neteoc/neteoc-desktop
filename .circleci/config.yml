@@ -6,5 +6,13 @@ jobs:
    working_directory: ~/neteoc
    steps:
      - checkout
+     - run: dpkg --add-architecture i386
+     - run: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+     - run: apt update && apt upgrade -y
+     - run: apt install -y  curl build-essential git openssh-client wget software-properties-common python-software-properties apt-transport-https icnsutils graphicsmagick mono-runtime  mono-complete  libmono-system-core4.0-cil
+     - run: wget -nc https://dl.winehq.org/wine-builds/Release.key && apt-key add Release.key && apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && apt update
+     - run: apt-get install -y --install-recommends winehq-stable
+     - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
+     - run: apt install -y nodejs
      - run: npm install
      - run: npm run release-windows
