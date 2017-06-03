@@ -28,7 +28,7 @@
         "url": "www.neteoc.com"
     },
     "Dependencies": {
-        "electron-devtools-installer": "^2.2.0",
+        "electron-devtools-installer": "^2.2.0"
     },
     "devDependencies": {
         "bower": "^1.8.0",
