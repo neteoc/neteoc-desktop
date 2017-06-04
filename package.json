@@ -27,7 +27,7 @@
         "email": "tbd@neteoc.com",
         "url": "www.neteoc.com"
     },
-    "Dependencies": {
+    "dependencies": {
         "electron-devtools-installer": "^2.2.0",
         "jquery": "^3.2.1",
         "serialport": "^4.0.7"
