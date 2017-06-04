@@ -9,8 +9,8 @@
         self.ports = null;
 
         self.init = function() {
-            self.list(function(err, ports) { 
-                self.ports = ports; 
+            self.list(function(err, ports) {
+                self.ports = ports;
             });
         };
 
@@ -18,8 +18,8 @@
             serialport.list(callback);
         };
 
-        self.open =function(port, baudRate, callback){
-            var p = new SerialPort(port, baudRate);
+        self.open = function(port, baudRate, callback) {
+            var p = new serialport(port, baudRate);
             p.on('data', callback);
             return p;
         };
