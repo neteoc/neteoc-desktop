@@ -1,6 +1,6 @@
 <div class="container" ng-controller="serialPortsCtrl" spinner spinner-on="!ports">
     <div class="row">
-        <h1>Serial Ports</h1>
+        <h1>Available Serial Ports</h1>
     </div>
     <div class="row">
         <div class="col-lg-6">
@@ -8,5 +8,14 @@
                 <li ng-repeat="port in ports">{{port.comName}}</li>
             </ul>
         </div>
+    </div>
+    <div>
+        <h1>READ DATA</h1>
+        <label>PORT:
+        <input type="text" ng-model="selectedPort"/>
+        <label>BAUDRATE</label>
+        <input type="text" ng-model="baudRate">
+        <label>Results:</label>
+        <div ng-repeat="read in reads">{{read}}</div>
     </div>
 </div>
