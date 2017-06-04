@@ -19,7 +19,10 @@
         };
 
         self.open = function(port, baudRate, callback) {
-            var p = new serialport(port, baudRate);
+            var p = new serialport(port, {
+                baudrate: baudRate,
+                parser: serialport.parsers.readline('\r\n')
+            });
             p.on('data', callback);
             return p;
         };

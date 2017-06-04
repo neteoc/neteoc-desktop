@@ -41,6 +41,7 @@
             //register node modules as angular modules
             try {
                 remoteProvider.register("serialport");
+                remoteProvider.register("gps");
             } catch (ex) {
                 console.log(ex);    // This doesn't seem to be printing, but it stops things from choking here ...
             }
