@@ -60,7 +60,9 @@
                                 </label>
                                 <label ng-show="showAttachmentsText"> Attachments</label>
                             </button>
-                            <!-- TODO: Clear all attachments button -->
+                            <!-- TODO: Clear all attachments button 
+                            <input type="button" ng-show="editingPoi.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">                            
+                            -->
                         </div>
                         <div class="form-group">
                             <div class="attachmentContainer" ng-repeat="(attachmentName, attachment) in editingPoi.attachments" class="ng-scope">
@@ -71,9 +73,6 @@
                                 <button ng-click="latLongFromAttachment(attachmentName)" class="btn btn-default" ng-show="attachment.lat != null">
                                     <span class="glyphicon glyphicon-screenshot"></span>
                                 </button>
-                                <!--
-                            <input type="button" ng-show="editingPoi.hasAttachments()" value="Clear Attachments" ng-click="$ctrl.clearAttachments()" class="ng-hide">
-                            -->
                             </div>
                         </div>
                     </form>

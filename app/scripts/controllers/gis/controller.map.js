@@ -88,9 +88,24 @@
                 draggable: draggable,
                 uploaded: false,
                 created: $scope.getCurrentUnixTime(),
+                modified: $scope.getCurrentUnixTime(),
                 fields: { },
                 attachments: {}
             });
+            // TODO: creating user
+        }
+
+        $scope.militaryDateFormat = function(date) {
+
+            if(!date) return "";
+
+            var newDate = new Date();
+            newDate.setTime(date);
+            
+            return newDate.getDay() + "-"
+                + newDate.getMonth() + " "
+                + newDate.getHours()
+                + newDate.getMinutes();
         }
     
         $scope.deleteMapMarker = function(mapMarker) {
@@ -187,6 +202,11 @@
         }
 
         $scope.savePoi = function(pointOfInterest) {
+
+            if(pointOfInterest == null) pointOfInterest = $scope.editingPoi;
+            if($scope.editingPoi == null) return;
+
+            pointOfInterest.modified = $scope.getCurrentUnixTime();
 
             // TODO: When edit is made, save / upload the edit ...
 
