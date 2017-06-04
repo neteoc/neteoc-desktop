@@ -7,12 +7,8 @@
     function serialPorts($rootScope, $location, serialport) {
         var self = this;
 
-        self.ports = null;
-
         self.init = function() {
-            self.list(function(err, ports) {
-                self.ports = ports;
-            });
+            
         };
 
         self.list = function(callback) {
@@ -21,7 +17,7 @@
 
         self.open = function(port, baudRate, callback) {
             var p = new SerialPort(port, {
-                baudrate: 4800,
+                baudrate: baudRate,
                 parser: SerialPort.parsers.readline('\n')
             });
             p.on('data', callback);
