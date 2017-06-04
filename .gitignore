@@ -3,3 +3,5 @@ vendor
 release-builds
 dist
 .idea/*
+
+mapMarkers.json

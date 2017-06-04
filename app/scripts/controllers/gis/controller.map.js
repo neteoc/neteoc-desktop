@@ -1,26 +1,57 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml'];
+    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml', 'fs'];
 
-    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService) {
+    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService, fs) {
+
+        $scope.mapMarkersFileName = "mapMarkers.json";
 
         $scope.init = function() {
 
-            // TODO: Fix ... 
+            // TODO: Fix ... ?
             $scope.mapCenter = {
                 lat: 32.837,
                 lng: -83.632,
                 zoom: 10
             };
 
+            $scope.loadMapMarkers();
+        };
+
+        $scope.loadMapMarkers = function() {
+
             // TODO: load from API ...
-            $scope.mapMarkers = JSON.parse(localStorage.getItem("mapMarkers")) || [];
+            $scope.mapMarkers = [];
+
+            try {
+                var text = fs.readFileSync($scope.mapMarkersFileName, 'utf8');
+                $scope.mapMarkers = JSON.parse(text) || [];
+            } catch (ex) {
+                console.log(ex);
+            }
+
+            if($scope.mapMarkers.constructor !== Array) {   // Validation, of a kind ...
+                $scope.mapMarkers = [];
+            }
 
             if($scope.mapMarkers.length == 0) {
                 $scope.addMapMarker(32.837, -83.632, "Maconga", "Welcome to Macon!", false);
             }
-        };
+        }
+
+        $scope.saveMapMarkers = function() {
+
+            try {
+                fs.writeFileSync($scope.mapMarkersFileName,
+                    angular.toJson($scope.mapMarkers)
+                );
+            }
+            catch(e) { 
+                console.log("Couldn't save file.");
+                console.log(e);
+            }
+        }
     
         $scope.generateUUID = function() {
             var d = new Date().getTime();
@@ -58,8 +89,6 @@
                 fields: { },
                 attachments: {}
             });
-
-            localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
         }
     
         $scope.deleteMapMarker = function(mapMarker) {
@@ -72,7 +101,7 @@
                 }
             }
             
-            localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
+            $scope.saveMapMarkers();
             $uibModalStack.dismissAll("");
         }
 
@@ -132,7 +161,8 @@
         $scope.savePoi = function(pointOfInterest) {
 
             // TODO: When edit is made, save / upload the edit ...
-            localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
+
+            $scope.saveMapMarkers();
 
             $uibModalStack.dismissAll("");
         }
