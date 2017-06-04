@@ -15,4 +15,5 @@ jobs:
      - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
      - run: apt install -y nodejs
      - run: npm run setup
+     - run: ./node_modules/.bin/electron-rebuild
      - run: npm run release-windows
