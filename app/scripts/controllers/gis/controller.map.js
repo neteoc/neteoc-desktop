@@ -152,10 +152,11 @@
 
             $scope.editingPoi = pointOfInterest;
 
-            uibModal.open({
+            var modelo = uibModal.open({
                 templateUrl: "views/gis/poiEdit.modal.html",         
                 scope: $scope
             });
+            modelo.result.then(function(result){}, function(err){});
         }
 
         $scope.savePoi = function(pointOfInterest) {
