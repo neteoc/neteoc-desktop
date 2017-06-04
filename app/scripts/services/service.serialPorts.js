@@ -9,7 +9,9 @@
         self.ports = null;
 
         self.init = function() {
-            self.list(function(err, ports) { self.ports = ports; })
+            self.list(function(err, ports) { 
+                self.ports = ports; 
+            });
         };
 
         self.list = function(callback) {

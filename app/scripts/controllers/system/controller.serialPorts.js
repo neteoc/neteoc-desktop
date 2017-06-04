@@ -12,7 +12,10 @@
 
 
         $scope.init = function() {
-            $scope.ports = serialPorts.ports;
+            serialPorts.list(function(err, ports) { 
+                $scope.ports = ports;
+                if(!$scope.ports) $scope.ports = [];
+            });
         };
 
         $scope.openPort = function(){
