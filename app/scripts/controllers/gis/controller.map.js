@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml', 'fs'];
+    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml', 'fs', 'net'];
 
-    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService, fs) {
+    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService, fs, net) {
 
         $scope.mapMarkersFileName = "mapMarkers.json";
 
@@ -28,7 +28,9 @@
                 var text = fs.readFileSync($scope.mapMarkersFileName, 'utf8');
                 $scope.mapMarkers = JSON.parse(text) || [];
             } catch (ex) {
-                console.log(ex);
+                if(ex.message.indexOf("no such file or directory") == -1) {
+                    console.log(ex);
+                }
             }
 
             if($scope.mapMarkers.constructor !== Array) {   // Validation, of a kind ...
@@ -110,6 +112,29 @@
             return (new Date()).getTime()/1000|0;
         }
 
+        $scope.locationFromTCPServer = function() {
+
+            var ip = "192.168.0.107";
+            var port = 50000;
+            var myConnection = net.connect(port, ip);
+            myConnection.on("data", $scope.umLikeDataReceivedOrWhatever);
+        }
+
+        $scope.umLikeDataReceivedOrWhatever = function(data) {
+
+            // var decodedData = $scope.bin2String(data)
+            data = data.toString('utf8');
+            console.log(data);
+        }
+
+        $scope.bin2String = function(array) {
+            var result = "";
+            for (var i = 0; i < array.length; i++) {
+                result += String.fromCharCode(parseInt(array[i], 2));
+            }
+            return result;
+        }
+
         $scope.locationFromDevice = function() {
 
             // TODO: Flag as 'enabled' or not for UI ...
@@ -156,7 +181,9 @@
                 templateUrl: "views/gis/poiEdit.modal.html",         
                 scope: $scope
             });
-            modelo.result.then(function(result){}, function(err){});
+            modelo.result.then(function(result){
+                // TODO: if editing a POI and the values are not the defaults, are you sure you want to cancel?
+            }, function(err){});
         }
 
         $scope.savePoi = function(pointOfInterest) {
