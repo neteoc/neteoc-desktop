@@ -6,7 +6,15 @@
     function menu($rootScope, $location, Menu, currentWindow) {
         this.init = function () {
 
-            var menu = Menu.buildFromTemplate([{
+            var menu = Menu.buildFromTemplate([
+            {
+                label: 'Map',
+                click: function () {
+                    $location.path("/gis");
+                    $rootScope.$apply();
+                }
+            },
+            {
                 label: 'Devices',
                 submenu: [{
                     label: 'GPS',
@@ -27,6 +35,13 @@
             {
                 label: 'Dev Tools',
                 click: function () { currentWindow.webContents.openDevTools(); }
+            },
+            {
+                label: 'Settings',
+                click: function () {
+                    $location.path("/settings");
+                    $rootScope.$apply();
+                }
             }
             ]);
             Menu.setApplicationMenu(menu);

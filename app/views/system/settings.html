@@ -1,0 +1,23 @@
+<div class="container" ng-controller="settingsCtrl">
+    <div class="row">
+        <h1>Configure GPS Device</h1>
+    </div>
+    <!-- TODO: If no devices, instead show "no devices found" -->
+    <div class="row">
+        <div class="col-lg-6">
+            <ul>
+                <li ng-repeat="port in ports">{{port.comName}}</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <label>PORT:
+        <input type="text" ng-model="selectedPort"/>
+        <label>BAUDRATE</label>
+        <input type="text" ng-model="baudRate">
+        <button ng-click="openPort()">Test</button>
+        <button ng-click="setPort()" ng-disabled="true">Yes, do that</button>
+        <label>Results:</label>
+        <div ng-repeat="read in reads">{{read}}</div>
+    </div>
+</div>

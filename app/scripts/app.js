@@ -27,6 +27,9 @@
             when('/serialports', {
                 templateUrl: 'views/system/serialPorts.html'
             }).
+            when('/settings', {
+                templateUrl: 'views/system/settings.html'
+            }).
             otherwise({
                 redirectTo: '/'
             });

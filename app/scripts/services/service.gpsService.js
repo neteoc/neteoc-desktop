@@ -12,8 +12,9 @@
 
         };
 
-        self.setPort = function(port) {
-            serialPorts.open(port, 4800, self.readSerial);
+        self.setPort = function(port, baud) {
+            if(!baud) baud = 4800;
+            serialPorts.open(port, baud, self.readSerial);
         };
 
         self.onRead = function(callback){
@@ -31,7 +32,7 @@
         self.readGPS = function(data){
             self.triggerCallbacks(self.GPS.state);
         };
-        $scope.GPS.on('data', self.readGPS);
+        self.GPS.on('data', self.readGPS);
 
         self.triggerCallbacks = function(data){
             for(var i = 0; i < readCallbacks.length; i++){
