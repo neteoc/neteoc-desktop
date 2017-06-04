@@ -15,6 +15,7 @@
         <input type="text" ng-model="selectedPort"/>
         <label>BAUDRATE</label>
         <input type="text" ng-model="baudRate">
+        <button ng-click="openPort()">Open and Read Port</button>
         <label>Results:</label>
         <div ng-repeat="read in reads">{{read}}</div>
     </div>
