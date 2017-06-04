@@ -148,60 +148,53 @@
         }
         
         $scope.attachmentAdded = function(event) {
+
+            if(!$scope.editingPoi || $scope.editingPoi == null) return;
             
             var files = event.target.files;
 
-            if(files.length == 0) {
-                return;
-            }
+            if(files.length == 0) return;
 
             var reader = new FileReader();
             var fileName = files[0].name;
+            // TODO: If this guy contains spaces, we're going to have a bad time ...
+            $scope.editingPoi.attachments[fileName] = {};
 
             // TODO: So, for extracting this out to a service, how can I convert a promise to an asynchronous return?
             reader.onload = function(frEvent) {
 
-                console.log(frEvent);
-                // console.log(frEvent.target.result);
-                document.getElementById("imagePreview").innerHTML = '<img width="100px" height="100px" src="'+frEvent.target.result+'" />';
-                // document.getElementById("imagePreview").style.backgroundImage = 'url("'+frEvent.target.result+'")';
+                var imageSource = frEvent.target.result;
 
-                $scope.editingPoi.attachments[fileName] = frEvent.target.result;
+                $scope.editingPoi.attachments[fileName].imageSrc = imageSource;
+
+                $scope.$digest();
             }
             reader.readAsDataURL(files[0]);
-            
-            // if has geo data, allow to set lat long from image
 
             // TODO: Convert to promise or something
             exif.getData(files[0], function() {
 
                 var geoData = exif.getGeoData(this);
 
-                if(geoData[0] == 0) {
-                    return;
-                }
+                if(geoData[0] == 0) return;
 
-                console.log(geoData);
-
-/*
-                vm.hasLatLongFromImage = true;
-                vm.imageLatLong = {
-
-                    "name" :  this.name,
-                    "latitude" : geoData[0],
-                    "longitude" : geoData[1],
-                    "set" : function () {
-                        vm.newPin.position.latitude = vm.imageLatLong.latitude;
-                        vm.newPin.position.longitude = vm.imageLatLong.longitude;
-                    }
-                }
-*/
-
-                $scope.$digest();
+                $scope.editingPoi.attachments[fileName].lat = geoData[0];
+                $scope.editingPoi.attachments[fileName].lng = geoData[1];
             });
         }
 
-        // $scope.$on('leafletDirectiveMap.click', $scope.mapClick);
+        $scope.deleteAttachment = function(attachmentName) {
+
+            if(!$scope.editingPoi || $scope.editingPoi == null) return;
+
+            delete $scope.editingPoi.attachments[attachmentName];
+        }
+
+        $scope.latLongFromAttachment = function(attachmentName) {
+
+            $scope.editingPoi.lng = $scope.editingPoi.attachments[attachmentName].lng;
+            $scope.editingPoi.lat = $scope.editingPoi.attachments[attachmentName].lat;
+        }
 
         $scope.markerClick = function(event, args) {
             
@@ -213,16 +206,11 @@
         $scope.saveKml = function() {
 
             leafletData.getMarkers().then(function(arg1) {
-                
-                console.log(arg1);
-                console.log($scope.mapMarkers);
 
                 var kmlDoc = kmlService.toKml($scope.mapMarkers);
 
                 // TODO: KML Mappings (timestamp, etc.)
                 // TODO: KML Properties (document name, should probably be like the name of the incident)
-
-                // var kmlDoc = tokml($scope.geojson.data);
 
                 var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(kmlDoc);
                 var dlAnchorElem = document.getElementById('downloadAnchorElem');

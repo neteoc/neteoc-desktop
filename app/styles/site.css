@@ -71,3 +71,92 @@ body {
     transition-property: width,height,transform,background,font-size,opacity;
     transition-duration: 1s,1s,1s,1s,1s,1s;
 }
+
+.modal-body textarea {
+    max-width: 100%;
+}
+
+.attachmentContainer {
+    position: relative;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.attachmentContainer:before {
+    content: "\e030";
+    font-family:"Glyphicons Halflings";
+    position: absolute;
+    left: 40%;
+    top: 40%;
+    font-size: 2em;
+    z-index: -1;
+    animation: glyphicon-spin-r 1s infinite linear;
+}
+
+.attachmentContainer button {
+    position: absolute;
+    opacity: 0;
+    top: 4px;
+    text-align: center;
+    transition: opacity .35s ease;
+}
+
+.attachmentContainer button.btn-default {
+    left: 4px;
+}
+
+.attachmentContainer button.btn-danger {
+    right: 4px;
+}
+
+.attachmentContainer:hover button {
+    opacity: 1;
+}
+
+@-webkit-keyframes glyphicon-spin-r {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes glyphicon-spin-r {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@-webkit-keyframes glyphicon-spin-l {
+    0% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes glyphicon-spin-l {
+    0% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}

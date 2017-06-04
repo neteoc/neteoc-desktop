@@ -39,7 +39,11 @@
             $logProvider.debugEnabled(false);
 
             //register node modules as angular modules
-            // remoteProvider.register("serialport");
+            try {
+                remoteProvider.register("serialport");
+            } catch (ex) {
+                console.log(ex);    // This doesn't seem to be printing, but it stops things from choking here ...
+            }
         }
     ]);
 
