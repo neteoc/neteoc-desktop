@@ -11,6 +11,8 @@
         $scope.baudRate = "4800";
         $scope.reads = [];
 
+        $scope.GPS = new gps;
+
 
         $scope.init = function() {
             serialPorts.list(function(err, ports) { 
@@ -21,13 +23,13 @@
 
         $scope.openPort = function(){
             serialPorts.open($scope.selectedPort, $scope.baudRate, function(data){
-                gps.update(data);
+                $scope.GPS.update(data);
                 //$scope.reads.push(data);
             });
         };
 
-        gps.on('data', function(data) {
-            console.log(data, gps.state);
+        $scope.GPS.on('data', function(data) {
+            console.log(data, $scope.GPS.state);
         });
 
         $scope.init();
