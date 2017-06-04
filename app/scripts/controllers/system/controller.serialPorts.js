@@ -20,7 +20,7 @@
 
         $scope.openPort = function(){
             serialPorts.open($scope.selectedPort, $scope.baudRate, function(data){
-                reads.push(data);
+                $scope.reads.push(data);
             });
         };
 
