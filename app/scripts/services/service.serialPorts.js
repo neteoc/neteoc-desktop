@@ -1,5 +1,6 @@
 (function() {
     'use strict';
+    var SerialPort = require('serialport');
     angular.module('neteoc').service('serialPorts', serialPorts);
     serialPorts.$inject = ['$rootScope', '$location', 'serialport'];
 
@@ -19,9 +20,9 @@
         };
 
         self.open = function(port, baudRate, callback) {
-            var p = new serialport(port, {
-                baudrate: baudRate,
-                parser: serialport.parsers.readline('\r\n')
+            var p = new SerialPort(port, {
+                baudrate: 4800,
+                parser: SerialPort.parsers.readline('\n')
             });
             p.on('data', callback);
             return p;
