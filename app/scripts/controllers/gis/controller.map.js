@@ -19,6 +19,38 @@
             $scope.loadMapMarkers();
         };
 
+        jQuery(document).ready(function(){
+
+            $scope.setUpResize();
+            window.dispatchEvent(new Event('resize'));
+        });
+
+        $scope.setUpResize = function() {
+
+            // TODO: on window resize 
+            // jQuery( window ).resize(function() {
+                
+                $scope.containerHeight = jQuery(".container").height();
+                // TOOD: Can we get minheight from css ...
+                $scope.minHeight = $scope.containerHeight * 0.30; // min 30% height
+                $scope.maxHeight = $scope.containerHeight - $scope.minHeight;
+
+                jQuery(".leaflet").resizable({
+                    handles: 's',
+                    maxHeight: $scope.maxHeight,
+                    minHeight: $scope.minHeight,
+                    resize: $scope.rebalance
+                });
+
+                $scope.rebalance();
+            // });
+        }
+    
+        $scope.rebalance = function() {
+            var currentTopHeight = jQuery(".leaflet").height();
+            jQuery("#everythingElse").height($scope.containerHeight - currentTopHeight);    
+        }
+
         $scope.loadMapMarkers = function() {
 
             // TODO: load from API ...

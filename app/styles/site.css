@@ -58,3 +58,9 @@ body {
 .attachmentContainer:hover button {
     opacity: 1;
 }
+
+.ui-resizable-handle {
+
+    height: 8px;
+    cursor: pointer;
+}
