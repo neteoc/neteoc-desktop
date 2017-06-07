@@ -25,8 +25,10 @@
             self.readCallbacks = [];
         };
 
+        // TODO: usubscribe individual event
+
         self.readSerial = function(data){
-            $scope.GPS.update(data);
+            self.GPS.update(data);
         };
 
         self.readGPS = function(data){
@@ -35,8 +37,8 @@
         self.GPS.on('data', self.readGPS);
 
         self.triggerCallbacks = function(data){
-            for(var i = 0; i < readCallbacks.length; i++){
-                readCallbacks[i](data);
+            for(var i = 0; i < self.readCallbacks.length; i++){
+                self.readCallbacks[i](data);
             }
         };
         self.init();

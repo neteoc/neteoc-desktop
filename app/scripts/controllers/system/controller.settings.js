@@ -6,11 +6,13 @@
 
     function settingsCtrl($scope, serialPorts, gps, gpsService, $timeout) {
 
+        // TOOD: ... device lists ...
         $scope.ports;
-        $scope.selectedPort = "COM1";
+        $scope.selectedPort;
         $scope.baudRate = 4800;
         $scope.reads = [];
         $scope.addingSerialDevice = false;
+        $scope.serialConfigurationWorks = true;
 
         $scope.GPS = new gps;
 
@@ -23,23 +25,59 @@
                 }, 1);
             });
 
-            // $scope.mapMarkers = JSON.parse(localStorage.getItem("mapMarkers")) || [];
+            // TODO: this should be global, not in this controller ...
+            var savedConfig = JSON.parse(localStorage.getItem("gpsSerialConfiguration")) || null;
+
+            // TODO: add to device list ...
+            if(savedConfig) {
+                $scope.selectedPort = savedConfig.selectedPort;
+                $scope.baudRate = savedConfig.baudRate;
+
+                gpsService.setPort($scope.selectedPort, $scope.baudRate);
+            }
         };
 
         $scope.openPort = function(){
+
+            gpsService.setPort($scope.selectedPort, $scope.baudRate);
+
+            /*
             serialPorts.open($scope.selectedPort, $scope.baudRate, function(data){
                 $scope.GPS.update(data);
-                $scope.reads.push(data);
+                // $scope.reads.push(data);
             });
+            */
         };
+
+        gpsService.onRead(function(data) {
+
+            // TODO: we may want to give this a few tries ...
+            if(data.lat) {
+                console.log("Got lat");
+                $scope.serialConfigurationWorks = true;
+            } else {
+                console.log(data.lat);
+                console.log(data.lat());
+                console.log(data);
+            }
+
+            // TODO: unsubscribe self instead of clear all
+            gpsService.clearEvents();
+
+            // TODO: close port ...
+        })
 
         // TODO: Close port
 
         $scope.setPort = function() {
 
-            gpsService.setPort($scope.selectedPort, $scope.baudRate);
+            // multiple entries ... won't work ...
+            localStorage.setItem("gpsSerialConfiguration", {
+                selectedPort: $scope.selectedPort,
+                baudRate: $scope.baudRate
+            });
 
-            // localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
+            alert("You did a save! Go use your thingy now!");
         }
 
         $scope.addSerialDevice = function() {
@@ -53,7 +91,7 @@
         }
 
         $scope.autoConfigure = function() {
-            
+
         }
 
         $scope.init();

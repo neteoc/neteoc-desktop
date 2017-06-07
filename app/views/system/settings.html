@@ -3,6 +3,8 @@
         <h1>GPS Devices</h1>
     </div>
 
+    <!-- TODO: List existing devices ... -->
+
     <!-- TODO: figure out how to properly disable ... -->
     <div class="row">
         <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen" ng-disabled="!addingSerialDevice">
@@ -44,7 +46,7 @@
             </form>
             <div class="panel-footer">
                 <!-- TODO: pull-right ? -->
-                <button class="btn btn-disabled" ng-click="setPort()" ng-disabled="true" 
+                <button class="btn btn-disabled" ng-click="setPort()" ng-disabled="!serialConfigurationWorks" 
                 title="Cannot add untested configuration">Add device as configured</button>
             </div>
         </div>
