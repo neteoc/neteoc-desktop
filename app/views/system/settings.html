@@ -4,6 +4,7 @@
     </div>
 
     <!-- TODO: List existing devices ... -->
+    <div ng-repeat="serialDevice in gpsService.openSerialPorts">Hi I'm a serial port and my name is {{serialDevice}}</div>
 
     <!-- TODO: figure out how to properly disable ... -->
     <div class="row">
@@ -46,8 +47,10 @@
             </form>
             <div class="panel-footer">
                 <!-- TODO: pull-right ? -->
-                <button class="btn btn-disabled" ng-click="setPort()" ng-disabled="!serialConfigurationWorks" 
-                title="Cannot add untested configuration">Add device as configured</button>
+                <button class="btn" ng-click="setPort()" ng-disabled="!serialConfigurationWorks" 
+                title="Cannot add untested configuration"
+                ng-class="{'btn-disabled': (serialConfigurationWorks), 'btn-success': (!serialConfigurationWorks)}">
+                Add device as configured</button>
             </div>
         </div>
     </div>

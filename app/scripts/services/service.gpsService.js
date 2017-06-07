@@ -7,14 +7,14 @@
         var self = this;
         self.GPS = new gps;
         self.readCallbacks = [];
+        self.openSerialPorts = {};
 
         self.init = function() {
-
         };
 
         self.setPort = function(port, baud) {
             if(!baud) baud = 4800;
-            serialPorts.open(port, baud, self.readSerial);
+            self.openSerialPorts[port] = serialPorts.open(port, baud, self.readSerial);
         };
 
         self.onRead = function(callback){
