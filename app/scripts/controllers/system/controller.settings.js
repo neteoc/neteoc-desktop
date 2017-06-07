@@ -10,6 +10,7 @@
         $scope.selectedPort = "COM1";
         $scope.baudRate = 4800;
         $scope.reads = [];
+        $scope.addingSerialDevice = false;
 
         $scope.GPS = new gps;
 
@@ -39,6 +40,20 @@
             gpsService.setPort($scope.selectedPort, $scope.baudRate);
 
             // localStorage.setItem("mapMarkers", angular.toJson($scope.mapMarkers));
+        }
+
+        $scope.addSerialDevice = function() {
+
+            $scope.addingSerialDevice = true;
+        }
+
+        $scope.addTCPDevice = function() {
+
+            alert("TODO: Coming soon");
+        }
+
+        $scope.autoConfigure = function() {
+            
         }
 
         $scope.init();

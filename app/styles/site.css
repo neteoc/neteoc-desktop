@@ -1,7 +1,8 @@
 .nav,
 .pagination,
 .carousel,
-.panel-title a {
+.panel-title a,
+[ng-click] {
     cursor: pointer;
 }
 

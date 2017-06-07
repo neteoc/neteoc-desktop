@@ -1,23 +1,52 @@
 <div class="container" ng-controller="settingsCtrl">
     <div class="row">
-        <h1>Configure GPS Device</h1>
+        <h1>GPS Devices</h1>
     </div>
-    <!-- TODO: If no devices, instead show "no devices found" -->
+
+    <!-- TODO: figure out how to properly disable ... -->
     <div class="row">
-        <div class="col-lg-6">
-            <ul>
-                <li ng-repeat="port in ports">{{port.comName}}</li>
+        <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen" ng-disabled="!addingSerialDevice">
+            <button id="single-button" type="button" class="btn btn-primary dropdown-toggle" 
+            uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
+                Add GPS Device <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
+                <li role="menuitem"><a ng-click="addSerialDevice()">Serial (over USB)</a></li>
+                <li role="menuitem"><a ng-click="addTCPDevice()">Network</a></li>
             </ul>
         </div>
     </div>
-    <div>
-        <label>PORT:
-        <input type="text" ng-model="selectedPort"/>
-        <label>BAUDRATE</label>
-        <input type="text" ng-model="baudRate">
-        <button ng-click="openPort()">Test</button>
-        <button ng-click="setPort()" ng-disabled="true">Yes, do that</button>
-        <label>Results:</label>
-        <div ng-repeat="read in reads">{{read}}</div>
+
+    <div class="row"><p /></div>
+
+    <!-- TODO: If no devices, instead show "no devices found" with a troubleshooting link -->
+    <!-- TODO: This should really take over the viewport when it appears, rather than just adding on -->
+    <div class="row">
+        <div class="panel panel-default" ng-show="addingSerialDevice">
+            <div class="panel-heading">Configure new Serial (over USB) GPS Receiver</div>
+            <div class="panel-body">
+                <label>Attempt to autoconfigure: </label>
+                <button class="btn btn-primary" ng-click="autoConfigure()">I'm feeling lucky</button>
+            </div>
+            <form class="form-inline">
+                <div class="panel-body">
+                    <label> Port </label>
+                    <select class="custom-select form-control" ng-model="selectedPort">
+                        <option ng-repeat="port in ports" value="{{port.comName}}">{{port.comName}}</option>
+                    </select>
+                    
+                    <label> Baud Rate </label>
+                    <input type="text" ng-model="baudRate">
+                    <button ng-click="openPort()">Test</button>
+                    <label>Results:</label>
+                    <div ng-repeat="read in reads">{{read}}</div>
+                </div>
+            </form>
+            <div class="panel-footer">
+                <!-- TODO: pull-right ? -->
+                <button class="btn btn-disabled" ng-click="setPort()" ng-disabled="true" 
+                title="Cannot add untested configuration">Add device as configured</button>
+            </div>
+        </div>
     </div>
 </div>
