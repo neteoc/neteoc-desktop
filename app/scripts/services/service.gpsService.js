@@ -10,6 +10,15 @@
         self.openSerialPorts = {};
 
         self.init = function() {
+
+            console.log("init gps service");
+            
+            var savedConfig = JSON.parse(localStorage.getItem("gpsSerialConfiguration")) || null;
+
+            if(savedConfig) {
+
+                self.setPort(savedConfig.selectedPort, savedConfig.baudRate);
+            }
         };
 
         self.setPort = function(port, baud) {

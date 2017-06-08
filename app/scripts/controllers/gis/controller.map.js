@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml', 'fs', 'net'];
+    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml', 'fs', 'net', 'gpsService'];
 
-    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService, fs, net) {
+    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService, fs, net, gpsService) {
 
         $scope.mapMarkersFileName = "mapMarkers.json";
 
@@ -17,6 +17,20 @@
             };
 
             $scope.loadMapMarkers();
+
+            if(gpsService.openSerialPorts && Object.keys(gpsService.openSerialPorts).length > 0) {
+
+                $scope.userMarker = $scope.addMapMarker(0, 0, "You", "Your last known location", false);
+                
+                gpsService.onRead(function(data) {
+                    if(data.lat && data.lon) {
+                        $scope.userMarker.lat = data.lat;
+                        $scope.userMarker.lng = data.lon;
+
+                        console.log($scope.userMarker.lat);
+                    }
+                });
+            }
         };
 
         $scope.loadMapMarkers = function() {
@@ -79,7 +93,8 @@
         // TODO: There needs to be an 'add' function to add the object,
         // and the map (leaflet) specific data (like click and drag) should be separate ...
         $scope.addMapMarker = function(lat, lng, name, description, draggable) {
-            $scope.mapMarkers.push({
+
+            var newMapMarker = {
                 id: $scope.generateUUID(),
                 lat: lat,
                 lng: lng,
@@ -91,8 +106,11 @@
                 modified: $scope.getCurrentUnixTime(),
                 fields: { },
                 attachments: {}
-            });
+            };
+            $scope.mapMarkers.push(newMapMarker);
             // TODO: creating user
+
+            return newMapMarker;
         }
 
         $scope.militaryDateFormat = function(date) {

@@ -25,21 +25,11 @@
                     if(!$scope.ports) $scope.ports = [];
                 }, 1);
             });
-
-            // TODO: this should be global, not in this controller ...
-            var savedConfig = JSON.parse(localStorage.getItem("gpsSerialConfiguration")) || null;
-
-            if(savedConfig) {
-                $scope.selectedPort = savedConfig.selectedPort;
-                $scope.baudRate = savedConfig.baudRate;
-
-                $scope.openPort();
-            }
         };
 
         $scope.openPort = function() {
 
-            if($scope.openSerialPorts() && $scope.openSerialPorts().length > 0) {
+            if($scope.openSerialPorts() && Object.keys($scope.openSerialPorts()).length > 0) {
                 // TODO
                 alert("Sorry, right now we can't cleanly handle multiple open attempts ...");
             }
