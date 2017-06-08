@@ -14,6 +14,8 @@ jobs:
      - run: apt-get install -y --install-recommends winehq-stable
      - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
      - run: apt install -y nodejs
-     - run: wineconsole cmd npm run setup
-     - run: wineconsole cmd ./node_modules/.bin/electron-rebuild
-     - run: wineconsole cmd npm run release-windows
+     - run: wget https://nodejs.org/dist/v6.11.0/node-v6.11.0-x64.msi
+     - run: wine msiexec.exe /i node-v6.11.0-x64.msi /quiet
+     - run: wine npm run setup
+     - run: wine ./node_modules/.bin/electron-rebuild
+     - run: wine npm run release-windows
