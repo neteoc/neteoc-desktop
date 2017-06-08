@@ -1,19 +1,24 @@
-<div class="container" ng-controller="settingsCtrl">
+<div class="settingsPage container" ng-controller="settingsCtrl">
     <div class="row">
         <h1>GPS Devices</h1>
     </div>
 
-    <!-- TODO: List existing devices ... -->
-    <div ng-repeat="serialDevice in gpsService.openSerialPorts">Hi I'm a serial port and my name is {{serialDevice}}</div>
+    <ol class="row">
+        <li ng-repeat="serialDevice in openSerialPorts()">Serial (over USB) device on {{serialDevice.path}}</li>
+    </ol>
 
-    <!-- TODO: figure out how to properly disable ... -->
+    <div class="row"><p /></div>
+
+    <!-- TODO: figure out how to properly disable ze button ... -->
     <div class="row">
-        <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen" ng-disabled="!addingSerialDevice">
+        <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen" ng-show="!addingSerialDevice"
+        ng-class="{'btn-disabled': (addingSerialDevice), 'btn-group': (!addingSerialDevice)}">
             <button id="single-button" type="button" class="btn btn-primary dropdown-toggle" 
             uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">
                 Add GPS Device <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button">
+                <!-- TODO: I'm PRETTY sure that this should be disabled if we're already using a serial device -->
                 <li role="menuitem"><a ng-click="addSerialDevice()">Serial (over USB)</a></li>
                 <li role="menuitem"><a ng-click="addTCPDevice()">Network</a></li>
             </ul>
@@ -35,17 +40,24 @@
                 <div class="panel-body">
                     <label> Port </label>
                     <select class="custom-select form-control" ng-model="selectedPort">
+                        <!-- TODO: disable options for configured ports -->
                         <option ng-repeat="port in ports" value="{{port.comName}}">{{port.comName}}</option>
                     </select>
                     
                     <label> Baud Rate </label>
-                    <input type="text" ng-model="baudRate">
-                    <button ng-click="openPort()">Test</button>
+                    <input class="form-control" type="text" ng-model="baudRate">
+                    <button class="btn btn-primary" ng-click="openPort()">Test</button>
                     <label>Results:</label>
+
+                    <!-- TODO: label indicating the result of past tests -->
+
                     <div ng-repeat="read in reads">{{read}}</div>
                 </div>
             </form>
             <div class="panel-footer">
+                <!-- TODO: Should the filled out form data be cleared? -->
+                <button class="btn btn-danger" ng-click="addingSerialDevice = false;">Cancel</button>
+
                 <!-- TODO: pull-right ? -->
                 <button class="btn" ng-click="setPort()" ng-disabled="!serialConfigurationWorks" 
                 title="Cannot add untested configuration"
