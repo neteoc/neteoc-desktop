@@ -9,7 +9,6 @@
 
     <div class="row"><p /></div>
 
-    <!-- TODO: figure out how to properly disable ze button ... -->
     <div class="row">
         <div class="btn-group dropdown" uib-dropdown="" is-open="status.isopen" ng-show="!addingSerialDevice"
         ng-class="{'btn-disabled': (addingSerialDevice), 'btn-group': (!addingSerialDevice)}">
@@ -58,7 +57,6 @@
                 <!-- TODO: Should the filled out form data be cleared? -->
                 <button class="btn btn-danger" ng-click="addingSerialDevice = false;">Cancel</button>
 
-                <!-- TODO: pull-right ? -->
                 <button class="btn" ng-click="setPort()" ng-disabled="!serialConfigurationWorks" 
                 title="Cannot add untested configuration"
                 ng-class="{'btn-disabled': (serialConfigurationWorks), 'btn-success': (!serialConfigurationWorks)}">

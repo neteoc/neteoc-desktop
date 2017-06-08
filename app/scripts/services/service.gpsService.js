@@ -25,7 +25,7 @@
             self.readCallbacks = [];
         };
 
-        // TODO: usubscribe individual event
+        // TODO: usubscribe individual event (may be easier if callbacks were an object with keys ...)
 
         self.readSerial = function(data){
             self.GPS.update(data);
@@ -41,6 +41,24 @@
                 self.readCallbacks[i](data);
             }
         };
+
+        // TODO: perhaps onRead could allow a parameter that would process this in the resposne ...
+        self.guessGPSState = function(data) {
+
+            var gpsState = { isWorking: false };
+
+            if(data.lat) {
+                gpsState.isWorking = true;
+                gpsState.hasSignal = true;
+                gpsState.formatUnderstandable = true;
+            } else if(data) {
+                
+                // ...
+            }
+
+            return gpsState;
+        };
+
         self.init();
     };
 })();
