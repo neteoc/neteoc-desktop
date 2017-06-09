@@ -21,14 +21,13 @@
             if(gpsService.openSerialPorts && Object.keys(gpsService.openSerialPorts).length > 0) {
 
                 // TODO: differentiate user marker
+                // TODO: don't show until we get a lat / long
                 $scope.userMarker = $scope.addMapMarker(0, 0, "You", "Your last known location", false);
                 
                 gpsService.onRead(function(data) {
                     if(data.lat && data.lon) {
                         $scope.userMarker.lat = data.lat;
                         $scope.userMarker.lng = data.lon;
-
-                        console.log($scope.userMarker.lat);
                     }
                 });
             }
@@ -84,6 +83,7 @@
         }
 
         $scope.setMapCenter = function(lat, lng, zoom) {
+            if(!zoom) zoom = $scope.mapCenter;
             $scope.mapCenter = {
                 lat: lat,
                 lng: lng,
@@ -299,11 +299,43 @@
             console.log(args.leafletObject.options);
         }
         $scope.$on('leafletDirectiveMarker.click', $scope.markerClick);
+
+        $scope.centerOnPoint = function(point) {
+            
+            $scope.setMapCenter(point.lat, point.lng, 10);
+        }
+
+        $scope.mapClick = function(event, args) {
+
+            // TODO: ng-click no work :(
+            var popup = L.popup()
+                .setContent(args.leafletEvent.latlng.lat + ", " + args.leafletEvent.latlng.lng + "<hr />"
+                + '<a onClick="alert(\'hi\');">New marker here</a>'
+                + '<br /><a ng-click="centerOnPoint({lat: \'' 
+                    + args.leafletEvent.latlng.lat + '\',lng: \''
+                    + args.leafletEvent.latlng.lng + '\'})">Center on this position</a>')
+                .setLatLng([args.leafletEvent.latlng.lat, args.leafletEvent.latlng.lng]);
+            
+            leafletData.getMap().then(function(map) {
+                map.openPopup(popup);
+                $scope.$digest;
+            });
+        };
+        $scope.$on('leafletDirectiveMap.contextmenu', $scope.mapClick);
         
         $scope.saveKml = function() {
 
+            var kmlDoc = kmlService.toKml($scope.mapMarkers);
 
+            // TODO: KML Mappings (timestamp, etc.)
+            // TODO: KML Properties (document name, should probably be like the name of the incident)
 
+            // TODO: I'll bet we can extract this to a file downloader service
+            var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(kmlDoc);
+            var dlAnchorElem = document.getElementById('downloadAnchorElem');
+            dlAnchorElem.setAttribute("href",     dataStr     );
+            dlAnchorElem.setAttribute("download", "neteoc.kml");
+            dlAnchorElem.click();
         }
 
         $scope.init();
