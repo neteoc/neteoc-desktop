@@ -1,10 +1,10 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', 'leafletData', 'net', '$timeout',
+    mapCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', 'leafletData',
         'kml', 'exif', 'gpsService', 'markerFiles'];
 
-    function mapCtrl($scope, uibModal, $uibModalStack, leafletData, net, $timeout,
+    function mapCtrl($scope, uibModal, $uibModalStack, leafletData,
             kmlService, exif, gpsService, markerFiles) {
 
         $scope.userMarker = null;
@@ -57,13 +57,11 @@
 
             if(!zoom) zoom = $scope.mapCenter.zoom;
 
-            $timeout(function() {   // ask angular kindly to re-digest after this
-                $scope.mapCenter = {
-                    lat: lat,
-                    lng: lng,
-                    zoom: zoom
-                };
-            }, 1);
+            $scope.mapCenter = {
+                lat: lat,
+                lng: lng,
+                zoom: zoom
+            };
         };
 
         // TODO: There needs to be an 'add' function to add the object,
@@ -92,9 +90,8 @@
 
             // TODO: Default values shouldn't be added to map marker list until the user saves the marker?
             if(pointOfInterest == null) {
-                console.log("I don't think we should be here.");
                 $scope.addMapMarker($scope.mapCenter.lat, $scope.mapCenter.lng, 
-                    "name of point", "description of point", true);
+                    "new map marker", "description of point", true);
                 pointOfInterest = $scope.mapMarkers[$scope.mapMarkers.length - 1];
             }
 
@@ -140,23 +137,37 @@
          * Leaflet functions
          */
 
-        $scope.mapClick = function(event, args) {
+         // Yes, this sucks, but nothing else worked
+        window.sillyCenterAlias = function(lat, lng) {
+
+            $scope.setMapCenter(lat, lng);
+        }
+
+        window.sillyAddMarkerAlias = function(lat, lng) {
+
+            $scope.editPoi($scope.addMapMarker(lat, lng, "new map marker", "description of point", true));
+        }
+
+        $scope.mapContextMenu = function(event, args) {
+
+            console.log("test");
 
             // TODO: ng-click no work :(
             var popup = L.popup()
                 .setContent(args.leafletEvent.latlng.lat + ", " + args.leafletEvent.latlng.lng + "<hr />"
-                + '<a onClick="alert(\'hi\');">New marker here</a>'
-                + '<br /><a ng-click="setMapCenter(' 
+                + '<a ng-click="" onClick="sillyAddMarkerAlias(' 
+                    + args.leafletEvent.latlng.lat + ', '
+                    + args.leafletEvent.latlng.lng + ')">New marker here</a>'
+                + '<br /><a ng-click="" onClick="sillyCenterAlias(' 
                     + args.leafletEvent.latlng.lat + ', '
                     + args.leafletEvent.latlng.lng + ')">Center on this position</a>')
                 .setLatLng([args.leafletEvent.latlng.lat, args.leafletEvent.latlng.lng]);
-            
+
             leafletData.getMap().then(function(map) {
                 map.openPopup(popup);
-                $scope.$digest;
             });
         };
-        $scope.$on('leafletDirectiveMap.contextmenu', $scope.mapClick);
+        $scope.$on('leafletDirectiveMap.contextmenu', $scope.mapContextMenu);
 
         $scope.$on('leafletDirectiveMarker.dragend', function(event, args) {
 
