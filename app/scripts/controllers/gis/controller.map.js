@@ -8,6 +8,7 @@
             kmlService, exif, gpsService) {
 
         $scope.mapMarkersFileName = "mapMarkers.json";
+        $scope.userMarker = null;
 
         $scope.init = function() {
 
@@ -23,9 +24,6 @@
 
             if(gpsService.openSerialPorts && Object.keys(gpsService.openSerialPorts).length > 0) {
 
-                // TODO: don't show until we get a lat / long
-                $scope.userMarker = $scope.addMapMarker(0, 0, "You", "Your last known location", false);
-
                 $scope.registerGPSListener();
             }
         };
@@ -34,6 +32,10 @@
                 
             gpsService.onRead(function(data) {
                 if(data.lat && data.lon) {
+
+                    if($scope.userMarker == null) {
+                        $scope.userMarker = $scope.addMapMarker(0, 0, "You", "Your last known location", false);
+                    }
 
                     $timeout(function() {   // ask angular kindly to re-digest after this
                         $scope.userMarker.lat = data.lat;
