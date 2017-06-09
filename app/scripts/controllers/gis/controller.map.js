@@ -20,6 +20,7 @@
 
             if(gpsService.openSerialPorts && Object.keys(gpsService.openSerialPorts).length > 0) {
 
+                // TODO: differentiate user marker
                 $scope.userMarker = $scope.addMapMarker(0, 0, "You", "Your last known location", false);
                 
                 gpsService.onRead(function(data) {
@@ -301,19 +302,8 @@
         
         $scope.saveKml = function() {
 
-            leafletData.getMarkers().then(function(arg1) {
 
-                var kmlDoc = kmlService.toKml($scope.mapMarkers);
 
-                // TODO: KML Mappings (timestamp, etc.)
-                // TODO: KML Properties (document name, should probably be like the name of the incident)
-
-                var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(kmlDoc);
-                var dlAnchorElem = document.getElementById('downloadAnchorElem');
-                dlAnchorElem.setAttribute("href",     dataStr     );
-                dlAnchorElem.setAttribute("download", "neteoc.kml");
-                dlAnchorElem.click();
-            });
         }
 
         $scope.init();

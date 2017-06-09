@@ -11,15 +11,17 @@
 
     <table datatable="ng" class="row-border hover">
         <thead>
+            <th>Center on</th>
             <th>Name</th>
             <th>Latitude</th>
             <th>Longitude</th>
-            <th>Last Updated</th>
+            <th>Updated</th>
             <th>Uploaded</th>
             <th></th>
         </thead>
         <tbody>
             <tr ng-repeat="pin in mapMarkers">
+                <td ng-click="centerOnPoint(pin);"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></td>
                 <td>{{pin.name}}</td>
                 <td>{{pin.lat}}</td>
                 <td>{{pin.lng}}</td>
