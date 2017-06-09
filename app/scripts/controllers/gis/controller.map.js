@@ -1,13 +1,12 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', 'fs', '$uibModalStack', 'leafletData', 'net', '$timeout',
-        'kml', 'exif', 'gpsService'];
+    mapCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', 'leafletData', 'net', '$timeout',
+        'kml', 'exif', 'gpsService', 'markerFiles'];
 
-    function mapCtrl($scope, uibModal, fs, $uibModalStack, leafletData, net, $timeout,
-            kmlService, exif, gpsService) {
+    function mapCtrl($scope, uibModal, $uibModalStack, leafletData, net, $timeout,
+            kmlService, exif, gpsService, markerFiles) {
 
-        $scope.mapMarkersFileName = "mapMarkers.json";
         $scope.userMarker = null;
 
         $scope.init = function() {
@@ -46,20 +45,8 @@
         $scope.loadMapMarkers = function() {
 
             // TODO: load from API ...
-            $scope.mapMarkers = [];
 
-            try {
-                var text = fs.readFileSync($scope.mapMarkersFileName, 'utf8');
-                $scope.mapMarkers = JSON.parse(text) || [];
-            } catch (ex) {
-                if(ex.message.indexOf("no such file or directory") == -1) {
-                    console.log(ex);
-                }
-            }
-
-            if($scope.mapMarkers.constructor !== Array) {   // Validation, of a kind ...
-                $scope.mapMarkers = [];
-            }
+            $scope.mapMarkers = markerFiles.markersFromFile();
 
             if($scope.mapMarkers.length == 0) {
                 $scope.addMapMarker(32.837, -83.632, "Maconga", "Welcome to Macon!", true);
@@ -145,7 +132,7 @@
 
             // TODO: When edit is made, save / upload the edit ...
 
-            $scope.saveMapMarkers();
+            markerFiles.markersToFile($scope.getMarkersToSave());
 
             $uibModalStack.dismissAll("");
         };
@@ -159,7 +146,7 @@
                 }
             }
             
-            $scope.saveMapMarkers();
+            markerFiles.markersToFile($scope.getMarkersToSave());
             $uibModalStack.dismissAll("");
         };
 
@@ -170,7 +157,6 @@
         $scope.markerClick = function(event, args) {
             
             $scope.editPoi(args.leafletObject.options);
-            console.log(args.leafletObject.options);
         }
         $scope.$on('leafletDirectiveMarker.click', $scope.markerClick);
 
@@ -194,7 +180,7 @@
 
         $scope.dragEnd = function(event, args) {
 
-            $scope.saveMapMarkers();
+            markerFiles.markersToFile($scope.getMarkersToSave());
         }
 
         $scope.$on('leafletDirectiveMarker.dragend', $scope.dragEnd);
@@ -202,41 +188,10 @@
         /**
          * File functions
          */
-
-        $scope.saveMapMarkers = function() {
-
-            var markersToSave = [];
-
-            for(var markerIndex in $scope.mapMarkers) {
-                
-                if($scope.mapMarkers[markerIndex] != $scope.userMarker) {
-                    markersToSave.push($scope.mapMarkers[markerIndex]);
-                }
-            }
-
-            try {
-                fs.writeFileSync($scope.mapMarkersFileName,
-                    angular.toJson(markersToSave)
-                );
-            }
-            catch(e) { 
-                console.log("Couldn't save file.");
-                console.log(e);
-            }
-        }
         
         $scope.saveKml = function() {
 
-            var markersToSave = [];
-
-            for(var markerIndex in $scope.mapMarkers) {
-                
-                if($scope.mapMarkers[markerIndex] != $scope.userMarker) {
-                    markersToSave.push($scope.mapMarkers[markerIndex]);
-                }
-            }
-
-            var kmlDoc = kmlService.toKml(markersToSave);
+            var kmlDoc = kmlService.toKml($scope.getMarkersToSave());
 
             // TODO: KML Mappings (timestamp, etc.)
             // TODO: KML Properties (document name, should probably be like the name of the incident)
@@ -247,6 +202,20 @@
             dlAnchorElem.setAttribute("href",     dataStr     );
             dlAnchorElem.setAttribute("download", "neteoc.kml");
             dlAnchorElem.click();
+        }
+
+        $scope.getMarkersToSave = function() {
+
+            var markersToSave = [];
+
+            for(var markerIndex in $scope.mapMarkers) {
+                
+                if($scope.mapMarkers[markerIndex] != $scope.userMarker) {
+                    markersToSave.push($scope.mapMarkers[markerIndex]);
+                }
+            }
+
+            return markersToSave;
         }
 
         /**
