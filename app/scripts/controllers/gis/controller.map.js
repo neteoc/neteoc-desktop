@@ -5,7 +5,7 @@
         'kml', 'exif', 'gpsService'];
 
     function mapCtrl($scope, uibModal, fs, $uibModalStack, leafletData, net, $timeout,
-        kmlService, exif, gpsService) {
+            kmlService, exif, gpsService) {
 
         $scope.mapMarkersFileName = "mapMarkers.json";
 
@@ -25,18 +25,23 @@
 
                 // TODO: don't show until we get a lat / long
                 $scope.userMarker = $scope.addMapMarker(0, 0, "You", "Your last known location", false);
-                
-                gpsService.onRead(function(data) {
-                    if(data.lat && data.lon) {
 
-                        $timeout(function() {   // ask angular kindly to re-digest after this
-                            $scope.userMarker.lat = data.lat;
-                            $scope.userMarker.lng = data.lon;
-                        }, 1);
-                    }
-                });
+                $scope.registerGPSListener();
             }
         };
+
+        $scope.registerGPSListener = function() {
+                
+            gpsService.onRead(function(data) {
+                if(data.lat && data.lon) {
+
+                    $timeout(function() {   // ask angular kindly to re-digest after this
+                        $scope.userMarker.lat = data.lat;
+                        $scope.userMarker.lng = data.lon;
+                    }, 1);
+                }
+            });
+        }
 
         $scope.loadMapMarkers = function() {
 
@@ -105,6 +110,11 @@
             };
         };
 
+        $scope.centerOnPoint = function(point) {
+            
+            $scope.setMapCenter(point.lat, point.lng, 10);
+        }
+
         // TODO: There needs to be an 'add' function to add the object,
         // and the map (leaflet) specific data (like click and drag) should be separate ...
         $scope.addMapMarker = function(lat, lng, name, description, draggable) {
@@ -139,20 +149,6 @@
                 + newDate.getHours()
                 + newDate.getMinutes();
         }
-    
-        $scope.deleteMapMarker = function(mapMarker) {
-
-            for(var index in $scope.mapMarkers) {
-                console.log(index);
-
-                if($scope.mapMarkers[index].id == mapMarker.id) {
-                    $scope.mapMarkers.splice(index, 1);
-                }
-            }
-            
-            $scope.saveMapMarkers();
-            $uibModalStack.dismissAll("");
-        }
 
         $scope.getCurrentUnixTime = function() {
 
@@ -173,36 +169,6 @@
             console.log(data);
         }
 
-        $scope.locationFromDevice = function() {
-
-            // TODO: Flag as 'enabled' or not for UI ...
-            // No connection = no can do :(   (this should ideally be improved / resolved ...)
-
-            // TODO: cache location so that API isn't choked
-            // https://github.com/electron/electron/issues/7861
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function success(position) {
-
-                    console.log(position);
-                    // TODO: if accuracy is above ... something ...
-
-                    // TODO: this doesn't seem to refresh the digest :(
-                    $scope.editingPoi.lng = position.coords.longitude;
-                    $scope.editingPoi.lat = position.coords.latitude;
-
-                    $scope.$digest();
-                    
-                }, function error(error) {
-
-                    console.log(error);
-                });
-            }
-        }
-
-        /**
-         * Functions that need to go in the pointsofinterest service
-         */
         $scope.editPoi = function(pointOfInterest) {
 
             // TODO: Default values shouldn't be added to map marker list until the user saves the marker?
@@ -215,11 +181,11 @@
 
             $scope.editingPoi = pointOfInterest;
 
-            var modelo = uibModal.open({
-                templateUrl: "views/gis/poiEdit.modal.html",         
+            uibModal.open({
+                templateUrl: "views/gis/poiEdit.modal.html",
+                controller: "poiEditController",
                 scope: $scope
-            });
-            modelo.result.then(function(result){
+            }).result.then(function(result){
                 // TODO: if editing a POI and the values are not the defaults, are you sure you want to cancel?
             }, function(err){});
         }
@@ -237,64 +203,18 @@
 
             $uibModalStack.dismissAll("");
         }
+    
+        $scope.deleteMapMarker = function(mapMarker) {
 
-        $scope.addNewPinField = function() {
+            for(var index in $scope.mapMarkers) {
 
-            $scope.editingPoi.fields[Object.keys($scope.editingPoi.fields).length + 1] = "change me";
-        }
-
-        $scope.deletePinField = function(fieldKey) {
-
-            delete $scope.editingPoi.fields[fieldKey];
-        }
-        
-        $scope.attachmentAdded = function(event) {
-
-            if(!$scope.editingPoi || $scope.editingPoi == null) return;
-            
-            var files = event.target.files;
-
-            if(files.length == 0) return;
-
-            var reader = new FileReader();
-            var fileName = files[0].name;
-            // TODO: If this guy contains spaces, we're going to have a bad time ...
-            $scope.editingPoi.attachments[fileName] = {};
-
-            // TODO: So, for extracting this out to a service, how can I convert a promise to an asynchronous return?
-            reader.onload = function(frEvent) {
-
-                var imageSource = frEvent.target.result;
-
-                $scope.editingPoi.attachments[fileName].imageSrc = imageSource;
-
-                $scope.$digest();
+                if($scope.mapMarkers[index].id == mapMarker.id) {
+                    $scope.mapMarkers.splice(index, 1);
+                }
             }
-            reader.readAsDataURL(files[0]);
-
-            // TODO: Convert to promise or something
-            exif.getData(files[0], function() {
-
-                var geoData = exif.getGeoData(this);
-
-                if(geoData[0] == 0) return;
-
-                $scope.editingPoi.attachments[fileName].lat = geoData[0];
-                $scope.editingPoi.attachments[fileName].lng = geoData[1];
-            });
-        }
-
-        $scope.deleteAttachment = function(attachmentName) {
-
-            if(!$scope.editingPoi || $scope.editingPoi == null) return;
-
-            delete $scope.editingPoi.attachments[attachmentName];
-        }
-
-        $scope.latLongFromAttachment = function(attachmentName) {
-
-            $scope.editingPoi.lng = $scope.editingPoi.attachments[attachmentName].lng;
-            $scope.editingPoi.lat = $scope.editingPoi.attachments[attachmentName].lat;
+            
+            $scope.saveMapMarkers();
+            $uibModalStack.dismissAll("");
         }
 
         $scope.markerClick = function(event, args) {
@@ -303,11 +223,6 @@
             console.log(args.leafletObject.options);
         }
         $scope.$on('leafletDirectiveMarker.click', $scope.markerClick);
-
-        $scope.centerOnPoint = function(point) {
-            
-            $scope.setMapCenter(point.lat, point.lng, 10);
-        }
 
         $scope.mapClick = function(event, args) {
 
