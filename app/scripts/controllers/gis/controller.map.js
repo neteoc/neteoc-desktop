@@ -52,7 +52,7 @@
             }
 
             if($scope.mapMarkers.length == 0) {
-                $scope.addMapMarker(32.837, -83.632, "Maconga", "Welcome to Macon!", false);
+                $scope.addMapMarker(32.837, -83.632, "Maconga", "Welcome to Macon!", true);
             }
         }
 
@@ -156,17 +156,8 @@
 
         $scope.umLikeDataReceivedOrWhatever = function(data) {
 
-            // var decodedData = $scope.bin2String(data)
             data = data.toString('utf8');
             console.log(data);
-        }
-
-        $scope.bin2String = function(array) {
-            var result = "";
-            for (var i = 0; i < array.length; i++) {
-                result += String.fromCharCode(parseInt(array[i], 2));
-            }
-            return result;
         }
 
         $scope.locationFromDevice = function() {
@@ -205,7 +196,7 @@
             if(pointOfInterest == null) {
                 console.log("I don't think we should be here.");
                 $scope.addMapMarker($scope.mapCenter.lat, $scope.mapCenter.lng, 
-                    "name of point", "description of point", false);
+                    "name of point", "description of point", true);
                 pointOfInterest = $scope.mapMarkers[$scope.mapMarkers.length - 1];
             }
 
@@ -322,6 +313,13 @@
             });
         };
         $scope.$on('leafletDirectiveMap.contextmenu', $scope.mapClick);
+
+        $scope.dragEnd = function(event, args) {
+
+            $scope.saveMapMarkers();
+        }
+
+        $scope.$on('leafletDirectiveMarker.dragend', $scope.dragEnd);
         
         $scope.saveKml = function() {
 
