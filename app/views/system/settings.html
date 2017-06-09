@@ -40,13 +40,14 @@
             <form class="form-inline">
                 <div class="panel-body">
                     <label> Port </label>
-                    <select class="custom-select form-control" ng-model="selectedPort">
+                    <select class="custom-select form-control" ng-model="selectedSerialPort">
                         <!-- TODO: disable options for configured ports -->
                         <option ng-repeat="port in ports" value="{{port.comName}}">{{port.comName}}</option>
                     </select>
                     
                     <label> Baud Rate </label>
                     <input class="form-control" type="text" ng-model="baudRate">
+
                     <button class="btn btn-primary" ng-click="openPort()">Test</button>
                     <label>Results:</label>
 
@@ -63,6 +64,42 @@
                 title="Cannot add untested configuration"
                 ng-class="{'btn-disabled': (serialConfigurationWorks), 'btn-success': (!serialConfigurationWorks)}">
                 Add device as configured</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default" ng-show="addingTCPDevice">
+            <div class="panel-heading">Configure new Network GPS Receiver</div>
+            <!-- TODO: Autoconfigure TCP device (later, if ever)
+            <div class="panel-body">
+                <label>Attempt to autoconfigure: </label>
+                <button class="btn btn-primary" ng-click="autoConfigure()">I'm feeling lucky</button>
+            </div>
+            -->
+            <form class="form-inline">
+                <div class="panel-body">
+                    <label> Address </label>
+                    <!-- TODO: validate -->
+                    <input class="form-control" type="text" ng-model="selectedTCPAddress">                    
+                    <label> Port </label>
+                    <input class="form-control" type="text" ng-model="selectTCPPort">
+
+                    <button class="btn btn-primary" ng-click="openPort()">Test</button>
+
+                    <!-- TODO: label indicating the result of past tests -->
+                </div>
+            </form>
+            <div class="panel-footer">
+                <!-- TODO: Should the filled out form data be cleared? -->
+                <button class="btn btn-danger" ng-click="addingTCPDevice = false;">Cancel</button>
+
+                <!--
+                <button class="btn" ng-click="setPort()" ng-disabled="!serialConfigurationWorks" 
+                title="Cannot add untested configuration"
+                ng-class="{'btn-disabled': (serialConfigurationWorks), 'btn-success': (!serialConfigurationWorks)}">
+                Add device as configured</button>
+                -->
             </div>
         </div>
     </div>

@@ -8,11 +8,15 @@
 
         // TOOD: ... device lists ...
         $scope.ports;
-        $scope.selectedPort;
+        $scope.selectedSerialPort;
         $scope.baudRate = 4800;
         $scope.reads = [];
         $scope.addingSerialDevice = false;
         $scope.serialConfigurationWorks = true;
+        
+        $scope.addingTCPDevice = false;
+        $scope.selectedTCPAddress = "192.168.0.1";
+        $scope.selectTCPPort = 50000;
 
         $scope.maxReads = 32;
         $scope.gpsReads = 0;
@@ -60,7 +64,7 @@
                 // TODO: close port ...
             })
 
-            gpsService.setPort($scope.selectedPort, $scope.baudRate);
+            gpsService.setPort($scope.selectedSerialPort, $scope.baudRate);
         };
 
         $scope.clearPort = function() {
@@ -76,7 +80,7 @@
 
             // multiple entries ... won't work ...
             localStorage.setItem("gpsSerialConfiguration", JSON.stringify({
-                selectedPort: $scope.selectedPort,
+                selectedSerialPort: $scope.selectedSerialPort,
                 baudRate: $scope.baudRate
             }));
 
@@ -95,8 +99,20 @@
 
         $scope.addTCPDevice = function() {
 
-            alert("TODO: Coming soon");
+            $scope.addingTCPDevice = true;
         }
+
+        $scope.connectToTCPServer = function() {
+
+            var myConnection = net.connect($scope.selectTCPPort, $scope.selectedTCPAddress);
+            myConnection.on("data", $scope.tcpDataReceived);
+        };
+
+        $scope.tcpDataReceived = function(data) {
+
+            data = data.toString('utf8');
+            console.log(data);
+        };
 
         $scope.autoConfigure = function() {
 

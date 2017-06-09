@@ -88,20 +88,6 @@
             return newMapMarker;
         };
 
-        $scope.locationFromTCPServer = function() {
-
-            var ip = "192.168.0.107";
-            var port = 50000;
-            var myConnection = net.connect(port, ip);
-            myConnection.on("data", $scope.umLikeDataReceivedOrWhatever);
-        };
-
-        $scope.umLikeDataReceivedOrWhatever = function(data) {
-
-            data = data.toString('utf8');
-            console.log(data);
-        };
-
         $scope.editPoi = function(pointOfInterest) {
 
             // TODO: Default values shouldn't be added to map marker list until the user saves the marker?
@@ -154,12 +140,6 @@
          * Leaflet functions
          */
 
-        $scope.markerClick = function(event, args) {
-            
-            $scope.editPoi(args.leafletObject.options);
-        }
-        $scope.$on('leafletDirectiveMarker.click', $scope.markerClick);
-
         $scope.mapClick = function(event, args) {
 
             // TODO: ng-click no work :(
@@ -178,12 +158,15 @@
         };
         $scope.$on('leafletDirectiveMap.contextmenu', $scope.mapClick);
 
-        $scope.dragEnd = function(event, args) {
+        $scope.$on('leafletDirectiveMarker.dragend', function(event, args) {
 
             markerFiles.markersToFile($scope.getMarkersToSave());
-        }
+        });
 
-        $scope.$on('leafletDirectiveMarker.dragend', $scope.dragEnd);
+        $scope.$on('leafletDirectiveMarker.click', function(event, args) {
+
+            $scope.editPoi(args.leafletObject.options);
+        });
 
         /**
          * File functions
