@@ -1,14 +1,17 @@
 (function() {
     'use strict';
     angular.module("neteoc").controller('mapCtrl', mapCtrl).directive('customOnChange', customOnChange);
-    mapCtrl.$inject = ['$scope', '$uibModal', 'exif', '$uibModalStack', 'leafletData', 'kml', 'fs', 'net', 'gpsService'];
+    mapCtrl.$inject = ['$scope', '$uibModal', 'fs', '$uibModalStack', 'leafletData', 'net', '$timeout',
+        'kml', 'exif', 'gpsService'];
 
-    function mapCtrl($scope, uibModal, exif, $uibModalStack, leafletData, kmlService, fs, net, gpsService) {
+    function mapCtrl($scope, uibModal, fs, $uibModalStack, leafletData, net, $timeout,
+        kmlService, exif, gpsService) {
 
         $scope.mapMarkersFileName = "mapMarkers.json";
 
         $scope.init = function() {
 
+            // TODO: Save last center on exit ...
             // TODO: Fix ... ?
             $scope.mapCenter = {
                 lat: 32.837,
@@ -20,14 +23,16 @@
 
             if(gpsService.openSerialPorts && Object.keys(gpsService.openSerialPorts).length > 0) {
 
-                // TODO: differentiate user marker
                 // TODO: don't show until we get a lat / long
                 $scope.userMarker = $scope.addMapMarker(0, 0, "You", "Your last known location", false);
                 
                 gpsService.onRead(function(data) {
                     if(data.lat && data.lon) {
-                        $scope.userMarker.lat = data.lat;
-                        $scope.userMarker.lng = data.lon;
+
+                        $timeout(function() {   // ask angular kindly to re-digest after this
+                            $scope.userMarker.lat = data.lat;
+                            $scope.userMarker.lng = data.lon;
+                        }, 1);
                     }
                 });
             }
@@ -58,9 +63,18 @@
 
         $scope.saveMapMarkers = function() {
 
+            var markersToSave = [];
+
+            for(var markerIndex in $scope.mapMarkers) {
+                
+                if($scope.mapMarkers[markerIndex] != $scope.userMarker) {
+                    markersToSave.push($scope.mapMarkers[markerIndex]);
+                }
+            }
+
             try {
                 fs.writeFileSync($scope.mapMarkersFileName,
-                    angular.toJson($scope.mapMarkers)
+                    angular.toJson(markersToSave)
                 );
             }
             catch(e) { 
@@ -109,7 +123,6 @@
                 attachments: {}
             };
             $scope.mapMarkers.push(newMapMarker);
-            // TODO: creating user
 
             return newMapMarker;
         }
@@ -323,7 +336,16 @@
         
         $scope.saveKml = function() {
 
-            var kmlDoc = kmlService.toKml($scope.mapMarkers);
+            var markersToSave = [];
+
+            for(var markerIndex in $scope.mapMarkers) {
+                
+                if($scope.mapMarkers[markerIndex] != $scope.userMarker) {
+                    markersToSave.push($scope.mapMarkers[markerIndex]);
+                }
+            }
+
+            var kmlDoc = kmlService.toKml(markersToSave);
 
             // TODO: KML Mappings (timestamp, etc.)
             // TODO: KML Properties (document name, should probably be like the name of the incident)
