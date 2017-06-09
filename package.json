@@ -1,7 +1,7 @@
 {
     "name": "neteoc-desktop",
     "productName": "NetEOC-GeoTool",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "NetEOC Desktop",
     "homepage": "https://github.com/neteoc/neteoc-desktop",
     "main": "main.js",
