@@ -4,7 +4,9 @@
     </div>
 
     <ol class="row">
-        <li ng-repeat="serialDevice in openSerialPorts()">Serial (over USB) device on {{serialDevice.path}}</li>
+        <li ng-repeat="serialDevice in openSerialPorts()">
+            Serial (over USB) device on {{serialDevice.path}} <a ng-click="troubleshoot(serialDevice)">Troubleshoot</a>
+        </li>
     </ol>
 
     <div class="row"><p /></div>

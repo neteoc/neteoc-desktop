@@ -88,6 +88,11 @@
             $scope.addingSerialDevice = true;
         }
 
+        $scope.troubleshoot = function(serialDevice) {
+
+            console.log(serialDevice);
+        }
+
         $scope.addTCPDevice = function() {
 
             alert("TODO: Coming soon");
