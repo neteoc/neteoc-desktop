@@ -14,8 +14,8 @@ jobs:
      - run: apt-get install -y --install-recommends winehq-stable
      - run: curl -sL https://deb.nodesource.com/setup_6.x | bash -
      - run: apt install -y nodejs node-gyp
-     - run: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-     - run: echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+     - run: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+     - run: echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
      - run: apt update && apt install -y yarn
      - run: yarn run setup
      - run: ./node_modules/.bin/electron-rebuild
