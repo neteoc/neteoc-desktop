@@ -38,6 +38,19 @@
 
             return result;
         };
+
+        self.downloadFile = function(filename, filecontents) {
+
+            var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(filecontents);
+
+            var downloadAnchor = document.createElement("a");
+            downloadAnchor.style = "display: none";
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", filename);
+            
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
     }
 
 })();

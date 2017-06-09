@@ -191,17 +191,8 @@
         
         $scope.saveKml = function() {
 
-            var kmlDoc = kmlService.toKml($scope.getMarkersToSave());
-
-            // TODO: KML Mappings (timestamp, etc.)
-            // TODO: KML Properties (document name, should probably be like the name of the incident)
-
-            // TODO: I'll bet we can extract this to a file downloader service
-            var dataStr = "data:text/xml;charset=utf-8," + encodeURIComponent(kmlDoc);
-            var dlAnchorElem = document.getElementById('downloadAnchorElem');
-            dlAnchorElem.setAttribute("href",     dataStr     );
-            dlAnchorElem.setAttribute("download", "neteoc.kml");
-            dlAnchorElem.click();
+            markerFiles.downloadFile("neteoc.kml", 
+                kmlService.toKml($scope.getMarkersToSave()));
         }
 
         $scope.getMarkersToSave = function() {
