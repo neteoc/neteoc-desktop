@@ -4,9 +4,13 @@
     kml.$inject = [];
 
     function kml() {
+        
         this.toKml = function(mapMarkers) {
             
             console.log(mapMarkers);
+
+            // TODO: KML Mappings (timestamp, etc.)
+            // TODO: KML Properties (document name, should probably be like the name of the incident)
 
             // TODO: This should really be more of like a builder with a string output ...
 

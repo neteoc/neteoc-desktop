@@ -16,12 +16,22 @@
         };
 
         self.open = function(port, baudRate, callback) {
-            var p = new SerialPort(port, {
-                baudrate: baudRate,
-                parser: SerialPort.parsers.readline('\n')
-            });
-            p.on('data', callback);
-            return p;
+
+            if(port == null || baudRate == null) {
+                console.log("Invalid parameters: " + port + " " + baudRate);
+                return;
+            }
+
+            try {
+                var p = new SerialPort(port, {
+                    baudrate: baudRate,
+                    parser: SerialPort.parsers.readline('\n')
+                });
+                p.on('data', callback);
+                return p;
+            } catch (ex) {
+                console.log(ex);
+            }
         };
 
         self.init();

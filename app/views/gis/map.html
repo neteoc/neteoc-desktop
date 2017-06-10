@@ -6,7 +6,7 @@
     </button>
 
     <button class="btn btn-primary" ng-click="saveKml()">
-        <span class="glyphicon glyphicon-floppy"> Save</span>
+        <span class="glyphicon glyphicon-floppy"> Save KML</span>
     </button>
 
     <table datatable="ng" class="row-border hover">
@@ -21,7 +21,9 @@
         </thead>
         <tbody>
             <tr ng-repeat="pin in mapMarkers">
-                <td ng-click="centerOnPoint(pin);"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></td>
+                <td ng-click="setMapCenter(pin.lat, pin.lng, 13);">
+                    <span class="glyphicon glyphicon-screenshot"></span>
+                </td>
                 <td>{{pin.name}}</td>
                 <td>{{pin.lat}}</td>
                 <td>{{pin.lng}}</td>
@@ -35,7 +37,4 @@
             </tr>
         </tbody>
     </table>
-
-    <iframe id="downloadyBit" style="display:none;"></iframe>
-    <a id="downloadAnchorElem" style="display:none"></a>
 </div>
