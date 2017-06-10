@@ -15,7 +15,7 @@
 
             if(savedConfig) {
 
-                self.setPort(savedConfig.selectedPort, savedConfig.baudRate);
+                self.setPort(savedConfig.selectedSerialPort, savedConfig.baudRate);
             }
         };
 
