@@ -12,7 +12,7 @@
         $scope.baudRate = 4800;
         $scope.reads = [];
         $scope.addingSerialDevice = false;
-        $scope.serialConfigurationWorks = true;
+        $scope.serialConfigurationWorks = false;
         
         $scope.addingTCPDevice = false;
         $scope.selectedTCPAddress = "192.168.0.1";
@@ -22,11 +22,29 @@
         $scope.gpsReads = 0;
 
         $scope.init = function() {
-            serialPorts.list(function(err, ports) { 
+
+            $scope.ports = [];
+
+            serialPorts.list(function(err, ports) {
 
                 $timeout(function() {   // ask angular kindly to re-digest after this
+
+                    for(var port in ports) {
+
+                        console.log($scope.openSerialPorts());
+
+                        // if port not in $scope.openSerialPorts()
+                        $scope.ports.push(ports[port]);
+                    }
+
                     $scope.ports = ports;
-                    if(!$scope.ports) $scope.ports = [];
+
+                    if($scope.ports) {
+                        // TODO: do we still need the document ready?
+                        $( document ).ready(function() {
+                            $scope.selectedSerialPort = jQuery("#serialConfiguration select option:last").val();
+                        });
+                    }
                 }, 1);
             });
         };
@@ -74,6 +92,7 @@
             // TODO: unsub rather than clear all ...
             gpsService.clearEvents();
             $scope.gpsReads = 0;
+            $scope.serialConfigurationWorks = true;
         }
 
         $scope.setPort = function() {
@@ -84,17 +103,12 @@
                 baudRate: $scope.baudRate
             }));
 
-            alert("You did a save! Go use your thingy now!");
+            alert("Device successfully saved. It will remain connected even if you restart.");
         }
 
         $scope.addSerialDevice = function() {
 
             $scope.addingSerialDevice = true;
-        }
-
-        $scope.troubleshoot = function(serialDevice) {
-
-            console.log(serialDevice);
         }
 
         $scope.addTCPDevice = function() {
@@ -116,8 +130,20 @@
 
         $scope.autoConfigure = function() {
 
+            alert("Not tonight, my friend.");
+
             // loop through serial ports
             // try assumed baud rate 
+        }
+
+        $scope.troubleshoot = function(serialDevice) {
+
+            console.log(serialDevice);
+        }
+
+        $scope.removeSerialDevice = function(serialDevice) {
+
+            alert("Darrell will write this eventually.");
         }
 
         $scope.openSerialPorts = function() {

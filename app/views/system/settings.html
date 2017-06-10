@@ -3,9 +3,14 @@
         <h1>GPS Devices</h1>
     </div>
 
+    <h3 ng-show="angular.equals({}, openSerialPorts())">Active Serial GPS Devices</h3>
+
     <ol class="row">
         <li ng-repeat="serialDevice in openSerialPorts()">
-            Serial (over USB) device on {{serialDevice.path}} <a ng-click="troubleshoot(serialDevice)">Troubleshoot</a>
+            Serial (over USB) device on {{serialDevice.path}} 
+            <a ng-click="troubleshoot(serialDevice)">Troubleshoot</a>
+            <a ng-click="removeSerialDevice(serialDevice)">Remove</a>
+            <!-- saved or not ...-->
         </li>
     </ol>
 
@@ -31,7 +36,7 @@
     <!-- TODO: If no devices, instead show "no devices found" with a troubleshooting link -->
     <!-- TODO: This should really take over the viewport when it appears, rather than just adding on -->
     <div class="row">
-        <div class="panel panel-default" ng-show="addingSerialDevice">
+        <div id="serialConfiguration" class="panel panel-default" ng-show="addingSerialDevice">
             <div class="panel-heading">Configure new Serial (over USB) GPS Receiver</div>
             <div class="panel-body">
                 <label>Attempt to autoconfigure: </label>
@@ -62,7 +67,7 @@
 
                 <button class="btn" ng-click="setPort()" ng-disabled="!serialConfigurationWorks" 
                 title="Cannot add untested configuration"
-                ng-class="{'btn-disabled': (serialConfigurationWorks), 'btn-success': (!serialConfigurationWorks)}">
+                ng-class="{'btn-disabled': (!serialConfigurationWorks), 'btn-success': (serialConfigurationWorks)}">
                 Add device as configured</button>
             </div>
         </div>

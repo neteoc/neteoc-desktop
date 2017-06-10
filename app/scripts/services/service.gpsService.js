@@ -20,8 +20,12 @@
         };
 
         self.setPort = function(port, baud) {
+            
             if(!baud) baud = 4800;
-            self.openSerialPorts[port] = serialPorts.open(port, baud, self.readSerial);
+
+            var openPort = serialPorts.open(port, baud, self.readSerial);
+
+            if(openPort != null) self.openSerialPorts[port] = openPort;
         };
 
         self.onRead = function(callback){
