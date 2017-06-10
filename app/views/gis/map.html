@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="pin in mapMarkers">
-                <td ng-click="setMapCenter(pin.lat, pin.lng);">
+                <td ng-click="setMapCenter(pin.lat, pin.lng, 13);">
                     <span class="glyphicon glyphicon-screenshot"></span>
                 </td>
                 <td>{{pin.name}}</td>

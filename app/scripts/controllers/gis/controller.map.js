@@ -11,15 +11,9 @@
 
         $scope.init = function() {
 
-            // TODO: Save last center on exit ...
-            // TODO: Fix ... ?
-            $scope.mapCenter = {
-                lat: 32.837,
-                lng: -83.632,
-                zoom: 10
-            };
-
             $scope.loadMapMarkers();
+
+            $scope.setMapCenterToMarkerBounds();
 
             if(gpsService.openSerialPorts && Object.keys(gpsService.openSerialPorts).length > 0) {
 
@@ -52,6 +46,26 @@
                 $scope.addMapMarker(32.837, -83.632, "Maconga", "Welcome to Macon!", true);
             }
         };
+
+        $scope.setMapCenterToMarkerBounds = function() {
+
+            $scope.mapCenter = {    // give mapCenter a value so that setMapCenter has a correct binding
+                lat: 32.837,
+                lng: -83.632,
+                zoom: 10
+            };
+
+            var markerLatLongs = [];
+            for(var markerIndex in $scope.mapMarkers) {
+
+                markerLatLongs.push([$scope.mapMarkers[markerIndex].lat, $scope.mapMarkers[markerIndex].lng]);
+            }
+
+            leafletData.getMap().then(function(map) {
+
+                map.fitBounds(markerLatLongs);
+            });
+        }
 
         $scope.setMapCenter = function(lat, lng, zoom) {
 
@@ -149,8 +163,6 @@
         }
 
         $scope.mapContextMenu = function(event, args) {
-
-            console.log("test");
 
             // TODO: ng-click no work :(
             var popup = L.popup()
