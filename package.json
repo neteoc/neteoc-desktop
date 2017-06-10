@@ -48,7 +48,6 @@
         "node-gyp": "^3.6.2"
     },
     "build": {
-        "appId": "com.neteoc.desktop",
-        "app-category-type": "public.app-category.productivity"
+        "appId": "com.neteoc.desktop"
     }
 }
