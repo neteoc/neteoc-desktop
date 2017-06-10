@@ -50,9 +50,5 @@
     "build": {
         "appId": "com.neteoc.desktop",
         "app-category-type": "public.app-category.productivity"
-    },
-    "Config": {
-        "productName": "NetEOC Desktop"
-
     }
 }
