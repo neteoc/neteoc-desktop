@@ -24,6 +24,7 @@
         $scope.init = function() {
 
             $scope.ports = [];
+            var openPortNames = Object.keys($scope.openSerialPorts());
 
             serialPorts.list(function(err, ports) {
 
@@ -31,15 +32,12 @@
 
                     for(var port in ports) {
 
-                        console.log($scope.openSerialPorts());
+                        var portAlreadyOpen = jQuery.inArray(ports[port].comName, openPortNames) != -1;
 
-                        // if port not in $scope.openSerialPorts()
-                        $scope.ports.push(ports[port]);
+                        if(!portAlreadyOpen) $scope.ports.push(ports[port]);
                     }
 
-                    $scope.ports = ports;
-
-                    if($scope.ports) {
+                    if($scope.ports && $scope.ports.length > 0) {
                         // TODO: do we still need the document ready?
                         $( document ).ready(function() {
                             $scope.selectedSerialPort = jQuery("#serialConfiguration select option:last").val();
