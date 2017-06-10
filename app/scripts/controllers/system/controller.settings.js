@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module("neteoc").controller('settingsCtrl', settingsCtrl);
-    settingsCtrl.$inject = ['$scope', 'serialPorts', 'gpsService', '$timeout'];
+    settingsCtrl.$inject = ['$scope', 'serialPorts', 'gpsService', '$timeout', '$location'];
 
-    function settingsCtrl($scope, serialPorts, gpsService, $timeout) {
+    function settingsCtrl($scope, serialPorts, gpsService, $timeout, $location) {
 
         // TOOD: ... device lists ...
         $scope.ports;
@@ -38,8 +38,7 @@
                     }
 
                     if($scope.ports && $scope.ports.length > 0) {
-                        // TODO: do we still need the document ready?
-                        $( document ).ready(function() {
+                        jQuery( document ).ready(function() {
                             $scope.selectedSerialPort = jQuery("#serialConfiguration select option:last").val();
                         });
                     }
@@ -58,9 +57,14 @@
 
             gpsService.onRead(function(data) {
 
+                $timeout(function() {   // this is getting really annoying
+                    $scope.serialConfigurationWorks = true;
+                }, 1);
+
                 if(gpsService.guessGPSState(data).isWorking) {
 
-                    $scope.serialConfigurationWorks = true;
+                    // TODO: get GPS state properly from gps service
+                    // $scope.serialConfigurationWorks = true;
 
                     // TODO: unsubscribe self instead of clear all
                     gpsService.clearEvents();
@@ -90,10 +94,10 @@
             // TODO: unsub rather than clear all ...
             gpsService.clearEvents();
             $scope.gpsReads = 0;
-            $scope.serialConfigurationWorks = true;
+            $scope.serialConfigurationWorks = false;
         }
 
-        $scope.setPort = function() {
+        $scope.setSerialPort = function() {
 
             // multiple entries ... won't work ...
             localStorage.setItem("gpsSerialConfiguration", JSON.stringify({
@@ -101,7 +105,14 @@
                 baudRate: $scope.baudRate
             }));
 
-            alert("Device successfully saved. It will remain connected even if you restart.");
+            var goToMap = confirm("Device configuration saved! It will remain connected through application restarts.\n"
+            + " Would you like to go back to the map page?");
+
+            if(goToMap) {
+                $location.path("/gis");
+            } else {
+                $scope.init();
+            }
         }
 
         $scope.addSerialDevice = function() {
