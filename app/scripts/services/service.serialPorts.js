@@ -18,6 +18,8 @@
 
         self.open = function(port, baudRate, callback) {
 
+            baudRate = parseInt(baudRate);
+
             if(port == null || baudRate == null) {
                 console.log("Invalid parameters: " + port + " " + baudRate);
                 return;

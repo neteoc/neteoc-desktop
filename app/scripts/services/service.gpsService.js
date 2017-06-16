@@ -45,9 +45,12 @@
 
         self.closeSerialPort = function(port) {
 
-            serialPorts.close(self.openSerialPorts[port]);
+            if(port in self.openSerialPorts) {
 
-            delete self.openSerialPorts[port];
+                serialPorts.close(self.openSerialPorts[port]);
+
+                delete self.openSerialPorts[port];
+            }
         };
 
         // TODO: usubscribe individual event (may be easier if callbacks were an object with keys ...)

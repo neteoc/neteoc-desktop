@@ -13,6 +13,7 @@
         $scope.reads = [];
         $scope.addingSerialDevice = false;
         $scope.serialConfigurationWorks = false;
+        $scope.testingSerialDevice = false;
         
         $scope.addingTCPDevice = false;
         $scope.selectedTCPAddress = "192.168.0.1";
@@ -55,6 +56,8 @@
 
             $scope.clearPort();
 
+            $scope.testingSerialDevice = true;
+
             gpsService.onRead(function(data) {
 
                 if(gpsService.gpsState().serialParseable) {
@@ -63,23 +66,18 @@
                         $scope.serialConfigurationWorks = true;
                     }, 1);
 
-                    // TODO: unsubscribe self instead of clear all
-                    gpsService.clearEvents();
-
-                    gpsService.closeSerialPort($scope.selectedSerialPort);
+                    $scope.clearPort();
                 } else {
 
                     $scope.gpsReads++;
 
                     if($scope.gpsReads >= $scope.maxReads) {
 
-                        gpsService.clearEvents();
+                        $scope.clearPort();
 
                         console.log("Unable to establish working GPS connection after " +
                             $scope.gpsReads + " attempts. Last packet received: ");
                         console.log(data);
-
-                        gpsService.closeSerialPort($scope.selectedSerialPort);
                     }
                 }
             });
@@ -88,6 +86,8 @@
         };
 
         $scope.clearPort = function() {
+
+            $scope.testingSerialDevice = false;
 
             gpsService.closeSerialPort($scope.selectedSerialPort);
 
