@@ -46,7 +46,7 @@
             });
         };
 
-        $scope.openPort = function() {
+        $scope.testPort = function() {
 
             if($scope.openSerialPorts() && Object.keys($scope.openSerialPorts()).length > 0) {
                 // TODO
@@ -57,18 +57,20 @@
 
             gpsService.onRead(function(data) {
 
-                $timeout(function() {   // this is getting really annoying
-                    $scope.serialConfigurationWorks = true;
-                }, 1);
-
-                if(gpsService.guessGPSState(data).isWorking) {
-
-                    // TODO: get GPS state properly from gps service
-                    // $scope.serialConfigurationWorks = true;
+                if(gpsService.gpsState().serialParseable) {
+                        
+                    $timeout(function() {   // this is getting really annoying
+                        $scope.serialConfigurationWorks = true;
+                    }, 1);
 
                     // TODO: unsubscribe self instead of clear all
                     gpsService.clearEvents();
+
+                    gpsService.closeSerialPort($scope.selectedSerialPort);
                 } else {
+
+                    $scope.gpsReads++;
+
                     if($scope.gpsReads >= $scope.maxReads) {
 
                         gpsService.clearEvents();
@@ -76,20 +78,18 @@
                         console.log("Unable to establish working GPS connection after " +
                             $scope.gpsReads + " attempts. Last packet received: ");
                         console.log(data);
-                    } else {
-                        $scope.gpsReads++;
+
+                        gpsService.closeSerialPort($scope.selectedSerialPort);
                     }
                 }
-
-                // TODO: close port ...
-            })
+            });
 
             gpsService.setPort($scope.selectedSerialPort, $scope.baudRate);
         };
 
         $scope.clearPort = function() {
 
-            // TODO: close port if open ...
+            gpsService.closeSerialPort($scope.selectedSerialPort);
 
             // TODO: unsub rather than clear all ...
             gpsService.clearEvents();
@@ -98,6 +98,8 @@
         }
 
         $scope.setSerialPort = function() {
+
+            gpsService.setPort($scope.selectedSerialPort, $scope.baudRate);
 
             // multiple entries ... won't work ...
             localStorage.setItem("gpsSerialConfiguration", JSON.stringify({
@@ -152,7 +154,10 @@
 
         $scope.removeSerialDevice = function(serialDevice) {
 
-            alert("Darrell will write this eventually.");
+            gpsService.closeSerialPort(serialDevice.path);
+
+            // TODO: handle multiple devices ...
+            localStorage.removeItem("gpsSerialConfiguration");
         }
 
         $scope.openSerialPorts = function() {

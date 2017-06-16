@@ -5,6 +5,7 @@
     serialPorts.$inject = ['$rootScope', '$location', 'serialport'];
 
     function serialPorts($rootScope, $location, serialport) {
+        
         var self = this;
 
         self.init = function() {
@@ -33,6 +34,11 @@
                 console.log(ex);
             }
         };
+
+        self.close = function(serialPort) {
+
+            serialPort.close();
+        }
 
         self.init();
     };
