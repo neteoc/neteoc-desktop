@@ -53,7 +53,7 @@
                 <label> Port </label>
                 <select class="custom-select form-control" ng-model="selectedSerialPort" ng-change="serialConfigurationWorks = false" ng-disabled="testingSerialDevice">
                     <!-- TODO: disable options for configured ports -->
-                    <option ng-repeat="port in ports" value="{{port.comName}}">{{port.comName}}</option>
+                    <option ng-repeat="port in ports" value="{{port}}">{{port}}</option>
                 </select>
                 
                 <label> Baud Rate </label>

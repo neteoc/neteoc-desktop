@@ -35,7 +35,7 @@
 
                         var portAlreadyOpen = jQuery.inArray(ports[port].comName, openPortNames) != -1;
 
-                        if(!portAlreadyOpen) $scope.ports.push(ports[port]);
+                        if(!portAlreadyOpen) $scope.ports.push(ports[port].comName);
                     }
 
                     if($scope.ports && $scope.ports.length > 0) {
@@ -158,6 +158,8 @@
 
             // TODO: handle multiple devices ...
             localStorage.removeItem("gpsSerialConfiguration");
+
+            $scope.ports.push(serialDevice.path);
         }
 
         $scope.openSerialPorts = function() {
