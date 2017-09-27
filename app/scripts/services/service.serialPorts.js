@@ -5,6 +5,7 @@
     serialPorts.$inject = ['$rootScope', '$location', 'serialport'];
 
     function serialPorts($rootScope, $location, serialport) {
+        
         var self = this;
 
         self.init = function() {
@@ -16,6 +17,8 @@
         };
 
         self.open = function(port, baudRate, callback) {
+
+            baudRate = parseInt(baudRate);
 
             if(port == null || baudRate == null) {
                 console.log("Invalid parameters: " + port + " " + baudRate);
@@ -33,6 +36,11 @@
                 console.log(ex);
             }
         };
+
+        self.close = function(serialPort) {
+
+            serialPort.close();
+        }
 
         self.init();
     };

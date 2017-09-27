@@ -4,12 +4,19 @@
     gpsService.$inject = ['$rootScope', '$location', 'serialPorts', 'gps'];
 
     function gpsService($rootScope, $location, serialPorts, gps) {
+
         var self = this;
         self.GPS = new gps;
         self.readCallbacks = [];
         self.openSerialPorts = {};
 
+        self.state = {};
+
         self.init = function() {
+
+            self.state.hasSerial = false;
+            self.state.serialParseable = false;
+            self.state.hasLat = false;
             
             var savedConfig = JSON.parse(localStorage.getItem("gpsSerialConfiguration")) || null;
 
@@ -36,13 +43,31 @@
             self.readCallbacks = [];
         };
 
-        // TODO: usubscribe individual event (may be easier if callbacks were an object with keys ...)
+        self.closeSerialPort = function(port) {
 
-        self.readSerial = function(data){
-            self.GPS.update(data);
+            if(port in self.openSerialPorts) {
+
+                serialPorts.close(self.openSerialPorts[port]);
+
+                delete self.openSerialPorts[port];
+            }
         };
 
-        self.readGPS = function(data){
+        // TODO: usubscribe individual event (may be easier if callbacks were an object with keys ...)
+
+        self.readSerial = function(data) {
+
+            self.state.hasSerial = true;
+
+            var updateSucceeded = self.GPS.update(data);
+
+            if(updateSucceeded) self.state.serialParseable = true;
+        };
+
+        self.readGPS = function(data) {
+
+            if(data.lat) self.state.hasLat = true;
+
             self.triggerCallbacks(self.GPS.state);
         };
         self.GPS.on('data', self.readGPS);
@@ -53,22 +78,10 @@
             }
         };
 
-        // TODO: perhaps onRead could allow a parameter that would process this in the resposne ...
-        self.guessGPSState = function(data) {
+        self.gpsState = function() {
 
-            var gpsState = { isWorking: false };
-
-            if(data.lat) {
-                gpsState.isWorking = true;
-                gpsState.hasSignal = true;
-                gpsState.formatUnderstandable = true;
-            } else if(data) {
-                
-                // ...
-            }
-
-            return gpsState;
-        };
+            return self.state;
+        }
 
         self.init();
     };

@@ -51,20 +51,24 @@
         <form class="form-inline">
             <div class="panel-body">
                 <label> Port </label>
-                <select class="custom-select form-control" ng-model="selectedSerialPort">
+                <select class="custom-select form-control" ng-model="selectedSerialPort" ng-change="serialConfigurationWorks = false" ng-disabled="testingSerialDevice">
                     <!-- TODO: disable options for configured ports -->
-                    <option ng-repeat="port in ports" value="{{port.comName}}">{{port.comName}}</option>
+                    <option ng-repeat="port in ports" value="{{port}}">{{port}}</option>
                 </select>
                 
                 <label> Baud Rate </label>
-                <input class="form-control" type="text" ng-model="baudRate">
+                <input class="form-control" type="text" ng-model="baudRate" ng-change="serialConfigurationWorks = false" ng-disabled="testingSerialDevice">
 
-                <button class="btn btn-primary" ng-click="openPort()">Test</button>
-                <label>Results:</label>
+                <button class="btn btn-primary" ng-click="testPort()" ng-disabled="testingSerialDevice">
+                    {{testingSerialDevice ? 'Testing' : 'Test'}}
+                </button>
+
+                <!-- TODO: these could reference the gps service for more granularity -->
+                <br />
+                <i ng-show="serialConfigurationWorks" class="fa fa-check green" aria-hidden="true"> Receiving Serial Data</i>
+                <i ng-show="serialConfigurationWorks" class="fa fa-check green" aria-hidden="true"> Receiving Valid GPS Data</i>
 
                 <!-- TODO: label indicating the result of past tests -->
-
-                <div ng-repeat="read in reads">{{read}}</div>
             </div>
         </form>
         <div class="panel-footer">
