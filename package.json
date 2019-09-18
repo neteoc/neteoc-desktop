@@ -30,7 +30,7 @@
     "dependencies": {
         "electron-devtools-installer": "^2.2.0",
         "gps": "^0.3.0",
-        "jquery": "^3.2.1",
+        "jquery": "^3.4.0",
         "serialport": "^4.0.7"
     },
     "devDependencies": {
