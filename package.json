@@ -35,7 +35,7 @@
     },
     "devDependencies": {
         "bower": "^1.8.0",
-        "electron": "1.6.8",
+        "electron": "15.5.5",
         "electron-builder": "^5.16.0",
         "electron-installer-dmg": "^0.2.1",
         "electron-packager": "^8.7.0",
